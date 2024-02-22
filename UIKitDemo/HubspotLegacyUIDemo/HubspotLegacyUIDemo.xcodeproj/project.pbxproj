@@ -1,0 +1,411 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 60;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		9601EEFD2B6A92A900CBE46E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9601EEFC2B6A92A900CBE46E /* AppDelegate.swift */; };
+		9601EEFF2B6A92A900CBE46E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9601EEFE2B6A92A900CBE46E /* SceneDelegate.swift */; };
+		9601EF012B6A92A900CBE46E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9601EF002B6A92A900CBE46E /* ViewController.swift */; };
+		9601EF042B6A92A900CBE46E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9601EF022B6A92A900CBE46E /* Main.storyboard */; };
+		9601EF062B6A92AB00CBE46E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9601EF052B6A92AB00CBE46E /* Assets.xcassets */; };
+		9601EF092B6A92AB00CBE46E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9601EF072B6A92AB00CBE46E /* LaunchScreen.storyboard */; };
+		9601EF122B6A92BE00CBE46E /* HubspotMobileSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 9601EF112B6A92BE00CBE46E /* HubspotMobileSDK */; };
+		9601EF142B6A970A00CBE46E /* Hubspot-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9601EF132B6A92D000CBE46E /* Hubspot-Info.plist */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		9601EEF92B6A92A900CBE46E /* HubspotLegacyUIDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HubspotLegacyUIDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9601EEFC2B6A92A900CBE46E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		9601EEFE2B6A92A900CBE46E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		9601EF002B6A92A900CBE46E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		9601EF032B6A92A900CBE46E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		9601EF052B6A92AB00CBE46E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9601EF082B6A92AB00CBE46E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		9601EF0A2B6A92AB00CBE46E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9601EF132B6A92D000CBE46E /* Hubspot-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Hubspot-Info.plist"; sourceTree = "<group>"; };
+		9601EF152B6AA9EF00CBE46E /* HubspotLegacyUIDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HubspotLegacyUIDemo.entitlements; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9601EEF62B6A92A900CBE46E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9601EF122B6A92BE00CBE46E /* HubspotMobileSDK in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9601EEF02B6A92A900CBE46E = {
+			isa = PBXGroup;
+			children = (
+				9601EEFB2B6A92A900CBE46E /* HubspotLegacyUIDemo */,
+				9601EEFA2B6A92A900CBE46E /* Products */,
+				9601EF102B6A92BE00CBE46E /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		9601EEFA2B6A92A900CBE46E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9601EEF92B6A92A900CBE46E /* HubspotLegacyUIDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9601EEFB2B6A92A900CBE46E /* HubspotLegacyUIDemo */ = {
+			isa = PBXGroup;
+			children = (
+				9601EF152B6AA9EF00CBE46E /* HubspotLegacyUIDemo.entitlements */,
+				9601EF132B6A92D000CBE46E /* Hubspot-Info.plist */,
+				9601EEFC2B6A92A900CBE46E /* AppDelegate.swift */,
+				9601EEFE2B6A92A900CBE46E /* SceneDelegate.swift */,
+				9601EF002B6A92A900CBE46E /* ViewController.swift */,
+				9601EF022B6A92A900CBE46E /* Main.storyboard */,
+				9601EF052B6A92AB00CBE46E /* Assets.xcassets */,
+				9601EF072B6A92AB00CBE46E /* LaunchScreen.storyboard */,
+				9601EF0A2B6A92AB00CBE46E /* Info.plist */,
+			);
+			path = HubspotLegacyUIDemo;
+			sourceTree = "<group>";
+		};
+		9601EF102B6A92BE00CBE46E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9601EEF82B6A92A900CBE46E /* HubspotLegacyUIDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9601EF0D2B6A92AB00CBE46E /* Build configuration list for PBXNativeTarget "HubspotLegacyUIDemo" */;
+			buildPhases = (
+				9601EEF52B6A92A900CBE46E /* Sources */,
+				9601EEF62B6A92A900CBE46E /* Frameworks */,
+				9601EEF72B6A92A900CBE46E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HubspotLegacyUIDemo;
+			packageProductDependencies = (
+				9601EF112B6A92BE00CBE46E /* HubspotMobileSDK */,
+			);
+			productName = HubspotLegacyUIDemo;
+			productReference = 9601EEF92B6A92A900CBE46E /* HubspotLegacyUIDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9601EEF12B6A92A900CBE46E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1520;
+				LastUpgradeCheck = 1520;
+				ORGANIZATIONNAME = "Hubspot, Inc.";
+				TargetAttributes = {
+					9601EEF82B6A92A900CBE46E = {
+						CreatedOnToolsVersion = 15.2;
+					};
+				};
+			};
+			buildConfigurationList = 9601EEF42B6A92A900CBE46E /* Build configuration list for PBXProject "HubspotLegacyUIDemo" */;
+			compatibilityVersion = "Xcode 15.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 9601EEF02B6A92A900CBE46E;
+			productRefGroup = 9601EEFA2B6A92A900CBE46E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9601EEF82B6A92A900CBE46E /* HubspotLegacyUIDemo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9601EEF72B6A92A900CBE46E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9601EF092B6A92AB00CBE46E /* LaunchScreen.storyboard in Resources */,
+				9601EF062B6A92AB00CBE46E /* Assets.xcassets in Resources */,
+				9601EF142B6A970A00CBE46E /* Hubspot-Info.plist in Resources */,
+				9601EF042B6A92A900CBE46E /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9601EEF52B6A92A900CBE46E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9601EF012B6A92A900CBE46E /* ViewController.swift in Sources */,
+				9601EEFD2B6A92A900CBE46E /* AppDelegate.swift in Sources */,
+				9601EEFF2B6A92A900CBE46E /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		9601EF022B6A92A900CBE46E /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9601EF032B6A92A900CBE46E /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		9601EF072B6A92AB00CBE46E /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9601EF082B6A92AB00CBE46E /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		9601EF0B2B6A92AB00CBE46E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		9601EF0C2B6A92AB00CBE46E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		9601EF0E2B6A92AB00CBE46E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = HubspotLegacyUIDemo/HubspotLegacyUIDemo.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = AQV5ZM59WZ;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = HubspotLegacyUIDemo/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Hubspot Legacy Demo";
+				INFOPLIST_KEY_NSCameraUsageDescription = "App can include photos in chat conversations";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tapadoo.HubspotLegacyUIDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		9601EF0F2B6A92AB00CBE46E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = HubspotLegacyUIDemo/HubspotLegacyUIDemo.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = AQV5ZM59WZ;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = HubspotLegacyUIDemo/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Hubspot Legacy Demo";
+				INFOPLIST_KEY_NSCameraUsageDescription = "App can include photos in chat conversations";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tapadoo.HubspotLegacyUIDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9601EEF42B6A92A900CBE46E /* Build configuration list for PBXProject "HubspotLegacyUIDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9601EF0B2B6A92AB00CBE46E /* Debug */,
+				9601EF0C2B6A92AB00CBE46E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9601EF0D2B6A92AB00CBE46E /* Build configuration list for PBXNativeTarget "HubspotLegacyUIDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9601EF0E2B6A92AB00CBE46E /* Debug */,
+				9601EF0F2B6A92AB00CBE46E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9601EF112B6A92BE00CBE46E /* HubspotMobileSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = HubspotMobileSDK;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 9601EEF12B6A92A900CBE46E /* Project object */;
+}

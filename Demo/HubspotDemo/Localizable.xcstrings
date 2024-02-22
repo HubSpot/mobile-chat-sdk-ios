@@ -1,0 +1,422 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%@ Chat Now (fullscreen)" : {
+
+    },
+    "%@ Chat Now (pushed)" : {
+
+    },
+    "%@ Chat Now (sheet/modal)" : {
+
+    },
+    "%lld custom keys configured" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld custom key configured"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : "%lld custom keys configured"
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "No custom keys configured"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Add" : {
+
+    },
+    "all" : {
+
+    },
+    "App Access Token" : {
+
+    },
+    "Apply" : {
+
+    },
+    "Async Task triggered for opening %lld times" : {
+
+    },
+    "Button 1" : {
+
+    },
+    "Button 2" : {
+
+    },
+    "Button 3" : {
+
+    },
+    "Change position of chat button" : {
+
+    },
+    "Chat" : {
+
+    },
+    "Chat with us" : {
+
+    },
+    "Clear data" : {
+
+    },
+    "Close" : {
+
+    },
+    "Config Issue" : {
+
+    },
+    "Configuration" : {
+
+    },
+    "Configure" : {
+
+    },
+    "Copy & paste your user identity token you have generated elsewhere here" : {
+
+    },
+    "Counters incrementing when app delegate gets a push received callback, just to help test regular pushes vs pushes containing hubspot keys / data" : {
+
+    },
+    "Create a token using the form below if no other method exists to get one" : {
+
+    },
+    "Create Identity Token" : {
+
+    },
+    "Current Config" : {
+
+    },
+    "Current Token\nlast checked:\n%@" : {
+
+    },
+    "Custom Button Examples" : {
+
+    },
+    "Custom buttons" : {
+
+    },
+    "Custom Properties" : {
+
+    },
+    "Default Chat Flow" : {
+
+    },
+    "Default flow - value taken from initial config: %@" : {
+
+    },
+    "Demo 1" : {
+
+    },
+    "Demo 2" : {
+
+    },
+    "Demo 3" : {
+
+    },
+    "Details" : {
+
+    },
+    "Disable Logging" : {
+
+    },
+    "Dismiss" : {
+
+    },
+    "Email" : {
+
+    },
+    "Email Address" : {
+
+    },
+    "Emit Some Logs" : {
+
+    },
+    "Enable Alerts" : {
+
+    },
+    "Enable Logging" : {
+
+    },
+    "Enable Provisional Notifications" : {
+
+    },
+    "Enable provisional notifications without asking for permission.\n\nThis will allow notifications straight to notification centre" : {
+      "localizations" : {
+        "en-US" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enable provisional notifications without asking for permission.\n\nThis will allow notifications straight to notification center"
+          }
+        }
+      }
+    },
+    "Enable regular notifications (alert, sound, badge) - this will show user alert on first use" : {
+
+    },
+    "Environment" : {
+
+    },
+    "Error: %@" : {
+
+    },
+    "Example using a view modifier function to include the button" : {
+
+    },
+    "Existing token" : {
+
+    },
+    "First name" : {
+
+    },
+    "Floating button" : {
+
+    },
+    "Floating Button" : {
+
+    },
+    "Floating Button (modifier)" : {
+
+    },
+    "Floating button (view modifier)" : {
+
+    },
+    "Floating button (with bar)" : {
+
+    },
+    "Floating button examples" : {
+
+    },
+    "Floating Button Examples" : {
+
+    },
+    "Flow for this one is currently set to '%@' - this would be set to whatever id you hardcode in your app" : {
+
+    },
+    "here, you can enter any chat flow you want, for the configured hubspot portal, perhaps based on your api data" : {
+
+    },
+    "Hublet" : {
+
+    },
+    "hubspot" : {
+
+    },
+    "Hubspot Demo" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hubspot Demo"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Dimostrazione del Hubspot"
+          }
+        }
+      }
+    },
+    "Identity token" : {
+
+    },
+    "Just register for remote push itself, and see the token." : {
+
+    },
+    "Key" : {
+
+    },
+    "Keys and values entered here are included in the custom chat properties via HubspotManager when opening chat" : {
+
+    },
+    "Last name" : {
+
+    },
+    "Logging" : {
+
+    },
+    "My Content" : {
+
+    },
+    "Nav bar button" : {
+
+    },
+    "Nav bars & toolbars" : {
+
+    },
+    "News" : {
+
+    },
+    "No chat button here -> look in tab 3" : {
+
+    },
+    "No chat button here -> look in tab 3.\n\nThese tabs are individual views - this time there's no global chat button over all the tabs, instead each tab is deciding if it wants a button and deciding where it goes.\n\nTab 2 and 3 intentionally have different button placements as an example\n" : {
+
+    },
+    "Not set" : {
+
+    },
+    "Notifications" : {
+
+    },
+    "Notifications opened" : {
+
+    },
+    "Notifications received" : {
+
+    },
+    "Permission exists to show alerts already" : {
+
+    },
+    "Permission exists to show notification centre notifications already" : {
+      "localizations" : {
+        "en-US" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permission exists to show notification center notifications already"
+          }
+        }
+      }
+    },
+    "placeholder.text" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget nibh non magna tempus fringilla eu et libero. Vestibulum bibendum vel libero sed tincidunt. Nam vehicula sollicitudin ipsum, et porta dui feugiat non. Proin vel nisi id mi feugiat ornare. Morbi odio metus, condimentum non dolor vel, molestie malesuada neque. Morbi tincidunt purus facilisis, mattis urna nec, tristique libero. Etiam vitae lacus vel nulla molestie viverra vitae accumsan purus. Nullam sagittis nec sem ut gravida. Aliquam suscipit elementum nibh nec rutrum.\n\nFusce augue elit, facilisis eu accumsan vel, dictum eu tellus. Donec volutpat orci ac viverra malesuada. Nullam molestie ligula est, tempor ornare augue pulvinar eget. Donec sed gravida felis. Vivamus lacus dolor, auctor a fermentum eu, facilisis quis nunc. Pellentesque mollis ligula ac venenatis posuere. Nunc auctor ultricies turpis, ac tempor ligula elementum nec. Nulla vel eros et purus finibus dictum vitae non tortor. Vestibulum vel aliquam enim, et malesuada augue. Phasellus nec elit nisi. Pellentesque in risus suscipit purus mollis accumsan. Fusce varius tempus scelerisque. Aenean id mauris non neque vehicula efficitur. Phasellus lacinia quam vitae elit pellentesque consequat. Aliquam eleifend nibh nec commodo rutrum."
+          }
+        },
+        "en-US" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget nibh non magna tempus fringilla eu et libero. Vestibulum bibendum vel libero sed tincidunt. Nam vehicula sollicitudin ipsum, et porta dui feugiat non. Proin vel nisi id mi feugiat ornare. Morbi odio metus, condimentum non dolor vel, molestie malesuada neque. Morbi tincidunt purus facilisis, mattis urna nec, tristique libero. Etiam vitae lacus vel nulla molestie viverra vitae accumsan purus. Nullam sagittis nec sem ut gravida. Aliquam suscipit elementum nibh nec rutrum.\n\nFusce augue elit, facilisis eu accumsan vel, dictum eu tellus. Donec volutpat orci ac viverra malesuada. Nullam molestie ligula est, tempor ornare augue pulvinar eget. Donec sed gravida felis. Vivamus lacus dolor, auctor a fermentum eu, facilisis quis nunc. Pellentesque mollis ligula ac venenatis posuere. Nunc auctor ultricies turpis, ac tempor ligula elementum nec. Nulla vel eros et purus finibus dictum vitae non tortor. Vestibulum vel aliquam enim, et malesuada augue. Phasellus nec elit nisi. Pellentesque in risus suscipit purus mollis accumsan. Fusce varius tempus scelerisque. Aenean id mauris non neque vehicula efficitur. Phasellus lacinia quam vitae elit pellentesque consequat. Aliquam eleifend nibh nec commodo rutrum."
+          }
+        }
+      }
+    },
+    "Portal ID" : {
+
+    },
+    "Preview" : {
+
+    },
+    "Recent Pushes" : {
+
+    },
+    "Register for remote push" : {
+
+    },
+    "Request Token" : {
+
+    },
+    "SDK Options" : {
+
+    },
+    "Setting Chat Flow" : {
+
+    },
+    "Some App Feature" : {
+
+    },
+    "some chatFlow, ex: sales" : {
+
+    },
+    "Specific chat flow" : {
+
+    },
+    "Start '%@' Chat" : {
+
+    },
+    "Support" : {
+
+    },
+    "Tab 1" : {
+
+    },
+    "Tab 2" : {
+
+    },
+    "Tab 3" : {
+
+    },
+    "Tabs + Floating button (global)" : {
+
+    },
+    "Tabs + Floating button (single tabs)" : {
+
+    },
+    "The demo app had issues setting up. Please check the logs to correct. Perhaps config file was altered or deleted?" : {
+
+    },
+    "This content screen has a chat button placed in a tool bar - another option for when overlaying a larger chat button over content isn't ideal - SwiftUI determines the sizing and layout of the toolbar.\n\nThe button here is just a standard, plain button with text." : {
+
+    },
+    "This content screen has a chat button placed in the nav bar - an option for when overlaying a larger chat button over content isn't ideal.\n\nThe button could also be a plain button - here its a custom button style" : {
+
+    },
+    "This example shows the chat button without any tabs - the button doesn't have to be in a navigation component, as it presents its content modally" : {
+
+    },
+    "This example shows the floating button used in a view with a standard toolbar configured - the buttons in the toolbar do nothing. The floating chat button avoids the bar." : {
+
+    },
+    "This is a placeholder for some feature - that button , or notification might trigger this feature in a real world scenario, rather than hubspot chat.\n\nIf this placeholder feature appears instead, and you were expecting to see chat view - check the message contents for any missing data keys." : {
+
+    },
+    "This is an example screen" : {
+
+    },
+    "This is tab 1" : {
+
+    },
+    "This is tab 1.\n\nThese tabs are all their own views, but the button is independent of the tab contents, floating above it using overlays" : {
+
+    },
+    "This is tab 2" : {
+
+    },
+    "This is tab 3" : {
+
+    },
+    "This is the preview content" : {
+
+    },
+    "Token" : {
+
+    },
+    "toolbar button" : {
+
+    },
+    "Use these regular buttons to start a chat. This button styling isn't from the SDK, but contained within the demo app, to show that any sort of custom styling could be used on a button that shows the chat view.\n\nThis set of buttons also show the different iOS navigation patterns - modal , full screen, and pushed onto navigation stack." : {
+
+    },
+    "User Identity" : {
+
+    },
+    "Value" : {
+
+    },
+    "When creating a token below, it will replace/fill the inputted token and email in the first form, apply the token, and close this screen." : {
+
+    },
+    "When opening chat view, one can optionally specfiy a chat flow. Here's a way to test that out. One option opens the default chat, based on the bundled configuration. Another opens a fixed flow - set as a constant in code, for example for a specific sub section of your app. And lastly, a dynamic value - perhaps derived from push message, your server back end, or a dynamic config." : {
+
+    }
+  },
+  "version" : "1.0"
+}

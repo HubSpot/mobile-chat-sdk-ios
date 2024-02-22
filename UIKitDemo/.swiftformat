@@ -1,0 +1,3 @@
+--disable redundantReturn
+--enable isEmpty
+--header "{file}\nHubspot Mobile SDK - UIKit Demo Application\n\nCopyright © {year} Hubspot, Inc."

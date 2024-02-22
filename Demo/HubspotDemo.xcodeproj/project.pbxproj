@@ -1,0 +1,505 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 60;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		9601EEEF2B63D81F00CBE46E /* SpecificChatFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9601EEEE2B63D81F00CBE46E /* SpecificChatFlowView.swift */; };
+		9624CDCD2B068528009FFC2D /* HubspotDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624CDCC2B068528009FFC2D /* HubspotDemoApp.swift */; };
+		9624CDD12B06852A009FFC2D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9624CDD02B06852A009FFC2D /* Assets.xcassets */; };
+		9624CDD42B06852A009FFC2D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9624CDD32B06852A009FFC2D /* Preview Assets.xcassets */; };
+		968FB4B72B0F7D9F00D6FC68 /* PlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968FB4B62B0F7D9F00D6FC68 /* PlaceholderView.swift */; };
+		968FB4B92B10ABCE00D6FC68 /* TabBarWithGlobalFloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968FB4B82B10ABCE00D6FC68 /* TabBarWithGlobalFloatingButton.swift */; };
+		968FB4BB2B10B27C00D6FC68 /* TabBarWithIndividualFloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968FB4BA2B10B27C00D6FC68 /* TabBarWithIndividualFloatingButton.swift */; };
+		968FB4BD2B10BDFC00D6FC68 /* NavToolbarWithChatButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968FB4BC2B10BDFB00D6FC68 /* NavToolbarWithChatButtonView.swift */; };
+		968FB4BF2B10F02000D6FC68 /* ToolbarWithChatButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968FB4BE2B10F02000D6FC68 /* ToolbarWithChatButtonView.swift */; };
+		968FB4C12B1658ED00D6FC68 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968FB4C02B1658ED00D6FC68 /* AppViewModel.swift */; };
+		968FB4C32B173A8600D6FC68 /* Hubspot-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 968FB4C22B173A8600D6FC68 /* Hubspot-Info.plist */; };
+		96AA34F32B45D0D8004FED6D /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 96AA34F22B45D0D8004FED6D /* Localizable.xcstrings */; };
+		96B54C062B63B9CF00AF5545 /* DemoPlaceholderFeatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B54C052B63B9CF00AF5545 /* DemoPlaceholderFeatureView.swift */; };
+		96D9BA422B56CBB700E0A3E8 /* CustomPropertiesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D9BA412B56CBB700E0A3E8 /* CustomPropertiesListView.swift */; };
+		96D9BA462B5EAF9600E0A3E8 /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D9BA452B5EAF9600E0A3E8 /* NotificationsView.swift */; };
+		96E75DAA2B0E70B2002DC1F5 /* FloatingButtonExampleContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E75DA92B0E70B2002DC1F5 /* FloatingButtonExampleContainerView.swift */; };
+		96E75DAC2B0F5784002DC1F5 /* FloatingButtonModifierView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E75DAB2B0F5784002DC1F5 /* FloatingButtonModifierView.swift */; };
+		96E88BB82B07815400F29EB5 /* HubspotMobileSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 96E88BB72B07815400F29EB5 /* HubspotMobileSDK */; };
+		96E88BBC2B07819500F29EB5 /* ChooseDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E88BBB2B07819500F29EB5 /* ChooseDemoView.swift */; };
+		96E88BBF2B07857400F29EB5 /* SDKOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E88BBE2B07857400F29EB5 /* SDKOptionsView.swift */; };
+		96E88BC22B0B83D400F29EB5 /* ChatFromCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E88BC12B0B83A900F29EB5 /* ChatFromCustomButton.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		9601EEEE2B63D81F00CBE46E /* SpecificChatFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecificChatFlowView.swift; sourceTree = "<group>"; };
+		9624CDC92B068528009FFC2D /* HubspotDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HubspotDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9624CDCC2B068528009FFC2D /* HubspotDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HubspotDemoApp.swift; sourceTree = "<group>"; };
+		9624CDD02B06852A009FFC2D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9624CDD32B06852A009FFC2D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		966AFB252B2C9C2E0073CADD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		968FB4B62B0F7D9F00D6FC68 /* PlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderView.swift; sourceTree = "<group>"; };
+		968FB4B82B10ABCE00D6FC68 /* TabBarWithGlobalFloatingButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarWithGlobalFloatingButton.swift; sourceTree = "<group>"; };
+		968FB4BA2B10B27C00D6FC68 /* TabBarWithIndividualFloatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarWithIndividualFloatingButton.swift; sourceTree = "<group>"; };
+		968FB4BC2B10BDFB00D6FC68 /* NavToolbarWithChatButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavToolbarWithChatButtonView.swift; sourceTree = "<group>"; };
+		968FB4BE2B10F02000D6FC68 /* ToolbarWithChatButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarWithChatButtonView.swift; sourceTree = "<group>"; };
+		968FB4C02B1658ED00D6FC68 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
+		968FB4C22B173A8600D6FC68 /* Hubspot-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Hubspot-Info.plist"; sourceTree = "<group>"; };
+		96AA34F22B45D0D8004FED6D /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		96B54C052B63B9CF00AF5545 /* DemoPlaceholderFeatureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoPlaceholderFeatureView.swift; sourceTree = "<group>"; };
+		96D9BA412B56CBB700E0A3E8 /* CustomPropertiesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPropertiesListView.swift; sourceTree = "<group>"; };
+		96D9BA432B5E762700E0A3E8 /* HubspotDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HubspotDemo.entitlements; sourceTree = "<group>"; };
+		96D9BA452B5EAF9600E0A3E8 /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
+		96E75DA92B0E70B2002DC1F5 /* FloatingButtonExampleContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingButtonExampleContainerView.swift; sourceTree = "<group>"; };
+		96E75DAB2B0F5784002DC1F5 /* FloatingButtonModifierView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingButtonModifierView.swift; sourceTree = "<group>"; };
+		96E88BBB2B07819500F29EB5 /* ChooseDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseDemoView.swift; sourceTree = "<group>"; };
+		96E88BBE2B07857400F29EB5 /* SDKOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SDKOptionsView.swift; sourceTree = "<group>"; };
+		96E88BC12B0B83A900F29EB5 /* ChatFromCustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatFromCustomButton.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9624CDC62B068528009FFC2D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				96E88BB82B07815400F29EB5 /* HubspotMobileSDK in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9624CDC02B068528009FFC2D = {
+			isa = PBXGroup;
+			children = (
+				9624CDCB2B068528009FFC2D /* HubspotDemo */,
+				9624CDCA2B068528009FFC2D /* Products */,
+				96E88BB62B07815400F29EB5 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		9624CDCA2B068528009FFC2D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9624CDC92B068528009FFC2D /* HubspotDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9624CDCB2B068528009FFC2D /* HubspotDemo */ = {
+			isa = PBXGroup;
+			children = (
+				968FB4C22B173A8600D6FC68 /* Hubspot-Info.plist */,
+				966AFB252B2C9C2E0073CADD /* Info.plist */,
+				96D9BA432B5E762700E0A3E8 /* HubspotDemo.entitlements */,
+				96D9BA402B56CB9C00E0A3E8 /* ChatProperties */,
+				96D9BA442B5EAF6E00E0A3E8 /* Notifications */,
+				968FB4B32B0F7BA000D6FC68 /* Tab And Toolbar Examples */,
+				96E75DA62B0E700D002DC1F5 /* Floating Button Examples */,
+				96E88BC02B0B83A900F29EB5 /* Custom Chat Options */,
+				96E88BBD2B07856700F29EB5 /* Debug */,
+				968FB4C02B1658ED00D6FC68 /* AppViewModel.swift */,
+				9624CDCC2B068528009FFC2D /* HubspotDemoApp.swift */,
+				96E88BBB2B07819500F29EB5 /* ChooseDemoView.swift */,
+				968FB4B62B0F7D9F00D6FC68 /* PlaceholderView.swift */,
+				96AA34F22B45D0D8004FED6D /* Localizable.xcstrings */,
+				9624CDD02B06852A009FFC2D /* Assets.xcassets */,
+				9624CDD22B06852A009FFC2D /* Preview Content */,
+			);
+			path = HubspotDemo;
+			sourceTree = "<group>";
+		};
+		9624CDD22B06852A009FFC2D /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				9624CDD32B06852A009FFC2D /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		968FB4B32B0F7BA000D6FC68 /* Tab And Toolbar Examples */ = {
+			isa = PBXGroup;
+			children = (
+				968FB4B82B10ABCE00D6FC68 /* TabBarWithGlobalFloatingButton.swift */,
+				968FB4BA2B10B27C00D6FC68 /* TabBarWithIndividualFloatingButton.swift */,
+				968FB4BC2B10BDFB00D6FC68 /* NavToolbarWithChatButtonView.swift */,
+				968FB4BE2B10F02000D6FC68 /* ToolbarWithChatButtonView.swift */,
+			);
+			path = "Tab And Toolbar Examples";
+			sourceTree = "<group>";
+		};
+		96D9BA402B56CB9C00E0A3E8 /* ChatProperties */ = {
+			isa = PBXGroup;
+			children = (
+				96D9BA412B56CBB700E0A3E8 /* CustomPropertiesListView.swift */,
+			);
+			path = ChatProperties;
+			sourceTree = "<group>";
+		};
+		96D9BA442B5EAF6E00E0A3E8 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				96D9BA452B5EAF9600E0A3E8 /* NotificationsView.swift */,
+				96B54C052B63B9CF00AF5545 /* DemoPlaceholderFeatureView.swift */,
+			);
+			path = Notifications;
+			sourceTree = "<group>";
+		};
+		96E75DA62B0E700D002DC1F5 /* Floating Button Examples */ = {
+			isa = PBXGroup;
+			children = (
+				96E75DA92B0E70B2002DC1F5 /* FloatingButtonExampleContainerView.swift */,
+				96E75DAB2B0F5784002DC1F5 /* FloatingButtonModifierView.swift */,
+			);
+			path = "Floating Button Examples";
+			sourceTree = "<group>";
+		};
+		96E88BB62B07815400F29EB5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		96E88BBD2B07856700F29EB5 /* Debug */ = {
+			isa = PBXGroup;
+			children = (
+				96E88BBE2B07857400F29EB5 /* SDKOptionsView.swift */,
+			);
+			path = Debug;
+			sourceTree = "<group>";
+		};
+		96E88BC02B0B83A900F29EB5 /* Custom Chat Options */ = {
+			isa = PBXGroup;
+			children = (
+				96E88BC12B0B83A900F29EB5 /* ChatFromCustomButton.swift */,
+				9601EEEE2B63D81F00CBE46E /* SpecificChatFlowView.swift */,
+			);
+			path = "Custom Chat Options";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9624CDC82B068528009FFC2D /* HubspotDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9624CDD72B06852A009FFC2D /* Build configuration list for PBXNativeTarget "HubspotDemo" */;
+			buildPhases = (
+				9624CDC52B068528009FFC2D /* Sources */,
+				9624CDC62B068528009FFC2D /* Frameworks */,
+				9624CDC72B068528009FFC2D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HubspotDemo;
+			packageProductDependencies = (
+				96E88BB72B07815400F29EB5 /* HubspotMobileSDK */,
+			);
+			productName = HubspotDemo;
+			productReference = 9624CDC92B068528009FFC2D /* HubspotDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9624CDC12B068528009FFC2D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1520;
+				ORGANIZATIONNAME = "Hubspot, Inc.";
+				TargetAttributes = {
+					9624CDC82B068528009FFC2D = {
+						CreatedOnToolsVersion = 15.0.1;
+					};
+				};
+			};
+			buildConfigurationList = 9624CDC42B068528009FFC2D /* Build configuration list for PBXProject "HubspotDemo" */;
+			compatibilityVersion = "Xcode 15.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				"en-US",
+			);
+			mainGroup = 9624CDC02B068528009FFC2D;
+			productRefGroup = 9624CDCA2B068528009FFC2D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9624CDC82B068528009FFC2D /* HubspotDemo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9624CDC72B068528009FFC2D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				968FB4C32B173A8600D6FC68 /* Hubspot-Info.plist in Resources */,
+				9624CDD42B06852A009FFC2D /* Preview Assets.xcassets in Resources */,
+				96AA34F32B45D0D8004FED6D /* Localizable.xcstrings in Resources */,
+				9624CDD12B06852A009FFC2D /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9624CDC52B068528009FFC2D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				96B54C062B63B9CF00AF5545 /* DemoPlaceholderFeatureView.swift in Sources */,
+				96D9BA422B56CBB700E0A3E8 /* CustomPropertiesListView.swift in Sources */,
+				96E75DAC2B0F5784002DC1F5 /* FloatingButtonModifierView.swift in Sources */,
+				96E88BC22B0B83D400F29EB5 /* ChatFromCustomButton.swift in Sources */,
+				968FB4C12B1658ED00D6FC68 /* AppViewModel.swift in Sources */,
+				968FB4BB2B10B27C00D6FC68 /* TabBarWithIndividualFloatingButton.swift in Sources */,
+				96E88BBC2B07819500F29EB5 /* ChooseDemoView.swift in Sources */,
+				968FB4BF2B10F02000D6FC68 /* ToolbarWithChatButtonView.swift in Sources */,
+				96E75DAA2B0E70B2002DC1F5 /* FloatingButtonExampleContainerView.swift in Sources */,
+				96E88BBF2B07857400F29EB5 /* SDKOptionsView.swift in Sources */,
+				968FB4BD2B10BDFC00D6FC68 /* NavToolbarWithChatButtonView.swift in Sources */,
+				968FB4B72B0F7D9F00D6FC68 /* PlaceholderView.swift in Sources */,
+				9624CDCD2B068528009FFC2D /* HubspotDemoApp.swift in Sources */,
+				968FB4B92B10ABCE00D6FC68 /* TabBarWithGlobalFloatingButton.swift in Sources */,
+				9601EEEF2B63D81F00CBE46E /* SpecificChatFlowView.swift in Sources */,
+				96D9BA462B5EAF9600E0A3E8 /* NotificationsView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		9624CDD52B06852A009FFC2D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		9624CDD62B06852A009FFC2D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		9624CDD82B06852A009FFC2D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = HubspotDemo/HubspotDemo.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_ASSET_PATHS = "\"HubspotDemo/Preview Content\"";
+				DEVELOPMENT_TEAM = AQV5ZM59WZ;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = HubspotDemo/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Hubspot Demo";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Photos can optionally be taken by you as part of a chat session.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hubspot.mobilesdk.HubspotDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		9624CDD92B06852A009FFC2D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = HubspotDemo/HubspotDemo.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_ASSET_PATHS = "\"HubspotDemo/Preview Content\"";
+				DEVELOPMENT_TEAM = AQV5ZM59WZ;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = HubspotDemo/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Hubspot Demo";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Photos can optionally be taken by you as part of a chat session.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hubspot.mobilesdk.HubspotDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9624CDC42B068528009FFC2D /* Build configuration list for PBXProject "HubspotDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9624CDD52B06852A009FFC2D /* Debug */,
+				9624CDD62B06852A009FFC2D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9624CDD72B06852A009FFC2D /* Build configuration list for PBXNativeTarget "HubspotDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9624CDD82B06852A009FFC2D /* Debug */,
+				9624CDD92B06852A009FFC2D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		96E88BB72B07815400F29EB5 /* HubspotMobileSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = HubspotMobileSDK;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 9624CDC12B068528009FFC2D /* Project object */;
+}

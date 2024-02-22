@@ -1,0 +1,15 @@
+Pods/
+.DS_Store
+.AppleDouble
+.LSOverride
+xcuserdata/
+build/
+/.build
+/Packages
+xcuserdata/
+DerivedData/
+.swiftpm/configuration/registries.json
+.swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
+.netrc
+/docs/build/
+betabuild.tmp/
