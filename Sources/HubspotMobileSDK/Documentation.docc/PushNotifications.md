@@ -6,6 +6,12 @@ This article covers the 2 methods of integrating the SDK and Chat with push noti
 
 There are two ways to handle hubspot push notifications in your app, first is for the app to be the main notification handler - in this setup, the app itself determines what to do with each notification, and controls the when and how notification permissions are prompted for. This is the choice for any app that already uses push for its own purposes. The second way is to allow the Hubspot SDK to handle the notifications itself, and trigger a callback whenever a chat needs to be displayed. This may be convenient for apps that have not yet configured push notifications.
 
+### Make sure that push is enabled for your app
+
+Confirm that in the target settings, under signing & capabilities, push notifications is listed. If its not listed use the `+Capability` button to add it.
+
+![Push Capability Exists](push-messaging-added)
+
 ### App Delegate Changes
 
 Whichever approach is taken, the SDK will need to be informed when the app has a push notification. In your app delegate, call the sdk method ``HubspotManager/setPushToken(apnsPushToken:)`` from within the push registration delegate method.

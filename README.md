@@ -2,9 +2,9 @@
 
 ## Installation
 
-Add the SDK to your project using Swift Package Manager using this repo url.
+Add the SDK to your project using Swift Package Manager using this repo url. From the project settings, select the Package Dependencies tab, beside Info and Build Settings tab. Search with this url to find and add the package.
 
-TODO: explain further with specific example or screenshot of correct url?
+NOTE: During alpha and beta testing, while this repository is private you may need to configure xcode with your Github Account. Add in account from the Xcode Preferences panel, in the account section. If building using a cli tool like xcodebuild, you may need to specify either `-scmProvider system` or `-scmProvider xcode` to choose if your system git credentials or xcode credentials are used.
 
 ## Configuration
 
@@ -30,11 +30,12 @@ Once configured, the chat view can be created and shown to users like any other 
 Button(action: {
      showChat.toggle()
  }, label: {
-     Text("\(Chat Now")
+     Text("Chat Now")
  }).sheet(isPresented: $showChat, content: {
      HubspotChatView()
  })
 ```
+
 
 ## Documentation
 

@@ -6,9 +6,18 @@ The basic steps to get the SDK installed and opening chat views.
 
 The SDK is a swift package containing hubspot chat view , notification functionality, and additional optional UI components.
 
+### Alpha / Beta Only - Ensure access to repository
+
+Confirm the SDK repository is accessible at [https://github.com/HubSpot/mobile-chat-sdk-ios](https://github.com/HubSpot/mobile-chat-sdk-ios)
+
+During alpha and beta testing, while the repository is private you may need to configure xcode with your Github Account. Add in account from the Xcode Preferences panel, in the account section. If building using a cli tool like xcodebuild, you may need to specify either `-scmProvider system` or `-scmProvider xcode` to choose if your system git credentials or xcode credentials are used.
+
 ### Installing & Configuring the SDK
 
 Use swift packages to add the SDK to your workspace, using the github repository URL. Add the `HubspotMobileSDK` library as a dependency of your app project and target.
+
+![Adding Package](confirm-spm)
+
 
 Be sure to download and include the `Hubspot-Info.plist` file from your hubspot account at [hubspot.com](https://www.hubspot.com). Important - make sure to include the file as part of the target within Xcode , in the right inspection panel:
 ![Demo screenshot](hsIncludeFile) ![Demo screenshot](hsIncludedTarget)
