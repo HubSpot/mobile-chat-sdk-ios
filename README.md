@@ -39,4 +39,4 @@ Button(action: {
 
 ## Documentation
 
-Reference documentation can be found here: https://tapadoo.github.io/hubspot-mobile-sdk-ios/documentation/hubspotmobilesdk
+Reference documentation can be found here: https://hubspot.github.io/mobile-chat-sdk-ios/documentation/hubspotmobilesdk/
