@@ -47,7 +47,7 @@ make-doc-archive:
 make-static-docs: make-doc-archive
 	xcrun docc process-archive transform-for-static-hosting \
 	$(DOCS_BUILD_DIR)/Build/Products/Debug-iphoneos/HubspotMobileSDK.doccarchive/ \
-	--hosting-base-path '/mobile-chat-sdk-ios' \
+	--hosting-base-path '/' \
 	--output-path $(DOCS_DIR)
 
 set-demo-version:
