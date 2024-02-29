@@ -32,7 +32,7 @@ Button(action: {
  }, label: {
      Text("Chat Now")
  }).sheet(isPresented: $showChat, content: {
-     HubspotChatView()
+     HubspotChatView(chatFlow: "support")
  })
 ```
 
@@ -40,3 +40,15 @@ Button(action: {
 ## Documentation
 
 Reference documentation can be found here: https://hubspot.github.io/mobile-chat-sdk-ios/documentation/hubspotmobilesdk/
+
+
+## Deploying this SDK
+
+For publishing a new version of this SDK:
+
+* Agree on a new version number, based on the changes
+* Update the CHANGELOG.md file with new version and summary of important changes
+* Commit, merge any branches (if needed) to main branch and tag the commit with the new version , i.e 1.0.0
+* push the main branch & tags to github.
+
+See also: https://developer.apple.com/documentation/xcode/publishing-a-swift-package-with-xcode

@@ -37,7 +37,7 @@ public struct FloatingActionButton: View {
 
     @State var showingChat: Bool = false
 
-    /// Create button, optionally specifying the manager to use
+    /// Create the button, optionally specifying the chatflow or manager to use.
     /// - Parameters:
     ///   - manager: The manager to use for getting a chat session. By defautl the shared manager is used.
     ///   - chatFlow: The specific chat flow to open. Optional.
@@ -93,7 +93,7 @@ struct FloatingActionButtonOverlayModifier: ViewModifier {
 }
 
 public extension View {
-    /// Convenience to overlay a floating action button - call on your main content view to overlay button at bottom trailing position with default padding
+    /// Convenience to overlay a floating action button - call on your main content view to overlay button at bottom trailing position with default padding. Set the `chatFlow` property to use a specific flow, otherwise the default flow from your configuration file will be used.
     /// - Parameters:
     ///     - manager: The hubspot manager to use
     ///     - chatFlow: the chat flow targeting parameter to use

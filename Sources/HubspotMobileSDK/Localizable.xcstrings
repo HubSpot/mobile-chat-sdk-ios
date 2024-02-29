@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%@" : {
+
+    },
     "chat.label" : {
       "localizations" : {
         "en" : {
@@ -10,6 +13,15 @@
           }
         }
       }
+    },
+    "Failed to load chat" : {
+
+    },
+    "Missing Chat Flow" : {
+
+    },
+    "Missing Configuration" : {
+
     }
   },
   "version" : "1.0"

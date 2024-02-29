@@ -116,7 +116,8 @@ class HubspotAPI {
         request.httpMethod = "POST"
 
         request.httpBody = requestData
-        let (data, response) = try await urlSession.data(for: request)
+        let (_, response) = try await urlSession.data(for: request)
+
 
         if let httpResponse = response as? HTTPURLResponse {
             // We aren't expecting any content as a response, just that it succeeded - hopefully the try await above is sufficient.

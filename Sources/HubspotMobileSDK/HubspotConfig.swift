@@ -45,10 +45,16 @@ public enum HubspotConfigError: LocalizedError {
     /// Missing config file, or missing value within - if this error occurs, make sure hubspot info file is bundled in app, and that  the manager configure method  ``HubspotManager/configure()`` has been called .
     case missingConfiguration
 
+    /// Chat flow is needed to correctly show a chat
+    case missingChatFlow
+
     public var errorDescription: String? {
         switch self {
         case .missingConfiguration:
             return "Couldn't find a configuration at the expected path \(HubspotConfig.defaultConfigFileName)"
+        case .missingChatFlow:
+            return "No chat flow provided, and no default found"
+
         }
     }
 
@@ -56,6 +62,9 @@ public enum HubspotConfigError: LocalizedError {
         switch self {
         case .missingConfiguration:
             return "Couldn't find a configuration at the expected path \(HubspotConfig.defaultConfigFileName)"
+        case .missingChatFlow:
+            return "No chat flow provided, and no default found"
+
         }
     }
 }
@@ -78,5 +87,5 @@ public struct HubspotConfig: Codable {
     public let portalId: String
 
     /// The default chat flow value to use if not specified when creating a chat view
-    public let defaultChatFlow: String
+    public let defaultChatFlow: String?
 }

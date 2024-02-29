@@ -39,12 +39,13 @@ import WebKit
 ///
 ///
 ///
-public struct HubspotChatView: UIViewRepresentable {
-    public typealias UIViewType = WKWebView
-
+///
+public struct HubspotChatView: View {
     private let manager: HubspotManager
     private let chatFlow: String?
     private let pushData: PushNotificationChatData?
+
+    @StateObject var viewModel = ChatViewModel()
 
     /// Create the chat view, optionally specifying the HubspotManager and Chat Flow to use.
     ///
@@ -63,11 +64,93 @@ public struct HubspotChatView: UIViewRepresentable {
         self.pushData = pushData
     }
 
-    public func makeCoordinator() -> WebviewCoordinator {
-        return WebviewCoordinator(manager: manager)
+    public var body: some View {
+        if viewModel.isFailure {
+            errorView
+        } else {
+            HubspotChatWebView(manager: manager,
+                               pushData: pushData,
+                               chatFlow: chatFlow,
+                               viewModel: viewModel)
+                .overlay(content: {
+                    loadingView
+                })
+        }
     }
 
-    public func makeUIView(context: Context) -> WKWebView {
+    @ViewBuilder
+    var loadingView: some View {
+        if viewModel.loading {
+            ProgressView()
+                .progressViewStyle(.circular)
+        } else {
+            EmptyView()
+        }
+    }
+
+    @ViewBuilder
+    var errorView: some View {
+        if let configError = viewModel.configError {
+            switch configError {
+            case .missingChatFlow:
+                if #available(iOS 17.0, *) {
+                    ContentUnavailableView("Missing Chat Flow", systemImage: "questionmark.bubble")
+                } else {
+                    // Fallback on earlier versions
+                    ContentUnavailableViewCompat("Missing Chat Flow", systemImage: "questionmark.bubble")
+                }
+            case .missingConfiguration:
+                if #available(iOS 17.0, *) {
+                    ContentUnavailableView("Missing Configuration", systemImage: "gear.badge.questionmark")
+                } else {
+                    ContentUnavailableViewCompat("Missing Configuration", systemImage: "gear.badge.questionmark")
+                }
+            }
+        } else if viewModel.failedToLoadWidget {
+            if #available(iOS 17.0, *) {
+                ContentUnavailableView("Failed to load chat", systemImage: "network.slash")
+            } else {
+                ContentUnavailableViewCompat("Failed to load chat", systemImage: "network.slash")
+            }
+        }
+    }
+}
+
+/// This is the WebView used witin the chat view - its wrapped with ``HubspotChatView`` incase we need to overlay or inline any errors or loading indicators
+struct HubspotChatWebView: UIViewRepresentable {
+    public typealias UIViewType = WKWebView
+
+    private let manager: HubspotManager
+    private let chatFlow: String?
+    private let pushData: PushNotificationChatData?
+
+    // Note - not a state , or observed object - we don't need to monitor it here
+    let viewModel: ChatViewModel
+
+    /// Create the chat view, optionally specifying the HubspotManager and Chat Flow to use.
+    ///
+    /// > Info: chatFlow may only take effect if a valid user identity is configured. See ``HubspotManager/setUserIdentity(identityToken:email:)``
+    ///
+    /// - Parameters:
+    ///   - manager: manager to use when creating urls for account and getting user properties
+    ///   - pushData: Struct containing any of the hubspot values from the push body payload.
+    ///   - chatFlow: The specific chat flow to open, if any
+    init(manager: HubspotManager,
+         pushData: PushNotificationChatData?,
+         chatFlow: String?,
+         viewModel: ChatViewModel)
+    {
+        self.manager = manager
+        self.chatFlow = chatFlow
+        self.pushData = pushData
+        self.viewModel = viewModel
+    }
+
+    func makeCoordinator() -> WebviewCoordinator {
+        return WebviewCoordinator(manager: manager, viewModel: viewModel)
+    }
+
+    func makeUIView(context: Context) -> WKWebView {
         let configuration = WKWebViewConfiguration()
 
         configuration.applicationNameForUserAgent = "HubspotMobileSDK"
@@ -87,6 +170,13 @@ public struct HubspotChatView: UIViewRepresentable {
 
         let webview = WKWebView(frame: .zero, configuration: configuration)
 
+        #if DEBUG
+            // This allows safari
+            if #available(iOS 16.4, *) {
+                webview.isInspectable = true
+            }
+        #endif
+
         webview.isOpaque = false
         webview.backgroundColor = UIColor.systemBackground
         webview.navigationDelegate = context.coordinator
@@ -99,25 +189,36 @@ public struct HubspotChatView: UIViewRepresentable {
     }
 
     /// This will load the chat url in the website, if available. Called automatically.
-    public func updateUIView(_ webView: WKWebView, context: Context) {
+    func updateUIView(_ webView: WKWebView, context: Context) {
         do {
             let urlToLoad = try manager.chatUrl(withPushData: pushData, forChatFlow: chatFlow)
             let request = URLRequest(url: urlToLoad)
 
+            Task {
+                viewModel.didStartLoading()
+            }
+            // Debugging delay to attach safari debugger
+
             let mainLoadNavReference = webView.load(request)
             context.coordinator.mainLoadNavReference = mainLoadNavReference
+
         } catch {
+            DispatchQueue.main.async {
+                viewModel.setError(error)
+            }
             manager.logger.error("Unable to load chat. Webview will be blank. \(error)")
         }
     }
 
     /// The coordinator helps with the Swift View to UIView lifecycle , and stays alive (along with the UIKit views)  when the swift view itself may be recreated.
     /// This is the sensible place for our delegate callbacks
-    public class WebviewCoordinator: NSObject, WKNavigationDelegate, WKUIDelegate, WKScriptMessageHandler {
+    class WebviewCoordinator: NSObject, WKNavigationDelegate, WKUIDelegate, WKScriptMessageHandler {
+        let viewModel: ChatViewModel
         let manager: HubspotManager
 
-        init(manager: HubspotManager) {
+        init(manager: HubspotManager, viewModel: ChatViewModel) {
             self.manager = manager
+            self.viewModel = viewModel
         }
 
         let handlerName = "nativeApp"
@@ -176,26 +277,39 @@ public struct HubspotChatView: UIViewRepresentable {
             contentController.addUserScript(WKUserScript(source: configCallbacksJS, injectionTime: .atDocumentEnd, forMainFrameOnly: false))
         }
 
-        public func webView(_: WKWebView, didCommit navigation: WKNavigation!) {
+        func webView(_: WKWebView, didCommit navigation: WKNavigation!) {
             let isMain = navigation == mainLoadNavReference
 
             if isMain {
+                Task {
+                    await viewModel.didStartLoading()
+                }
                 // create script that triggers on hubspot event, and calls our message handler
                 // Set earlier currently, but might need to move back there
             }
         }
 
-        public func webView(_: WKWebView, didFinish navigation: WKNavigation!) {
+        func webView(_: WKWebView, didFinish navigation: WKNavigation!) {
             let isMain = navigation == mainLoadNavReference
 
             if isMain {
+                Task {
+                    await self.viewModel.didLoadUrl()
+                }
                 // create script that triggers on hubspot event, and calls our message handler
                 // Set earlier currently, but might need to move back there
             }
         }
 
-        public func userContentController(_: WKUserContentController, didReceive message: WKScriptMessage) {
+        func userContentController(_: WKUserContentController, didReceive message: WKScriptMessage) {
             if let dict = message.body as? [String: Any] {
+                /// this message is sent on widget loading
+                if let message = dict["message"] as? String, message == "widget has loaded" {
+                    Task {
+                        await viewModel.didLoadWidget()
+                    }
+                }
+
                 // We are looking to get conversation object , if sent.
                 if
                     let conversationDict = dict["conversation"] as? [String: Any],
@@ -207,4 +321,99 @@ public struct HubspotChatView: UIViewRepresentable {
             }
         }
     }
+}
+
+/// We use this to hold a loading state - using a state & binding into the web view represetable causes some infinte loading to occur
+/// May migrate more functionality that was direct to manager here in future
+@MainActor
+class ChatViewModel: ObservableObject {
+    @Published private(set) var loading: Bool = false
+
+    var failedToLoadWidget = false
+
+    /// used to show error instead of chat view webview
+    var isFailure: Bool {
+        // TODO: - add generic error also?
+        return configError != nil || failedToLoadWidget
+    }
+
+    @Published var configError: HubspotConfigError?
+
+    var timeoutTask: Task<Void, Never>? = nil
+
+    /// Call when we are going to load the widget embed url
+    func didStartLoading() {
+        guard !loading else { return }
+
+        loading = true
+
+        timeoutTask?.cancel()
+
+        timeoutTask = Task {
+            do {
+                try await Task.sleep(nanoseconds: 10_000_000_000)
+                // If we were cancelled, consider the loading finished and not timed out
+                if loading, !Task.isCancelled {
+                    failedToLoadWidget = true
+                    loading = false
+                }
+            } catch {
+                // Any failure with sleep is likely issue with task being cancelled - assume not needed to do anything
+            }
+        }
+    }
+
+    /// Call when url is loaded - we may or may not want to consider this the final step
+    func didLoadUrl() {
+        // Currently, nothing considered loaded here as we are still waiting for javascript to load
+    }
+
+    /// Call when the widget emits a loaded message - this might be our indication that the widget has loaded at all
+    func didLoadWidget() {
+        guard loading else { return }
+
+        timeoutTask?.cancel()
+        timeoutTask = nil
+        DispatchQueue.main.async {
+            self.loading = false
+        }
+    }
+
+    func setError(_ error: Error) {
+        guard let hsError = error as? HubspotConfigError else {
+            return
+        }
+
+        configError = hsError
+    }
+}
+
+/// Something similar to content unavailable, doesn't need to be exact - ideally end user never has configuration issues that cause these to show by release
+private struct ContentUnavailableViewCompat: View {
+    let message: LocalizedStringKey
+    let systemImage: String
+    var body: some View {
+        // Stack is here as modifiers complained about view type otherwise
+        VStack(spacing: 8) {
+            Text("\(Image(systemName: systemImage))")
+                .font(.title)
+                .bold()
+                .foregroundStyle(.secondary)
+
+            Text(message).bold()
+                .font(.title2)
+        }
+
+        .multilineTextAlignment(.center)
+        .frame(maxHeight: .infinity, alignment: .center)
+    }
+
+    init(_ message: LocalizedStringKey, systemImage: String) {
+        self.message = message
+        self.systemImage = systemImage
+    }
+}
+
+#Preview {
+    ContentUnavailableViewCompat("Failed to load chat", systemImage: "network.slash")
 }

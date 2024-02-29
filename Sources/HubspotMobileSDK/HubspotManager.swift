@@ -91,7 +91,7 @@ public class HubspotManager: NSObject, ObservableObject {
     ///   - environment: the environment to use
     public static func configure(portalId: String,
                                  hublet: String,
-                                 defaultChatFlow: String,
+                                 defaultChatFlow: String?,
                                  environment: HubspotEnvironment = .production)
     {
         shared.configure(portalId: portalId,
@@ -144,7 +144,7 @@ public class HubspotManager: NSObject, ObservableObject {
     ///   - environment: the environment to use
     func configure(portalId: String,
                    hublet: String,
-                   defaultChatFlow: String,
+                   defaultChatFlow: String?,
                    environment: HubspotEnvironment = .production)
     {
         self.portalId = portalId
@@ -368,10 +368,13 @@ public class HubspotManager: NSObject, ObservableObject {
     }
 
     /// Computes the url for the current config for embedding chat, based on any known config for portal id, hublet, user id, etc
+    ///
+    /// The chat view , ``HubspotChatView`` calls this method when setting up its embedded chat
     /// - Parameters:
     ///     - withPushData: The struct with data from push notification
     ///     - forChatFlow: The chat flow to open.
     /// - Returns: URL to embed to show mobile chat
+    ///  - Throws: ``HubspotConfigError.missingConfiguration`` if app settings like portal id or hublet are missing, or ``HubspotConfigError.missingChatFlow`` if no chat flow is provided and no default value exists
     func chatUrl(withPushData: PushNotificationChatData?, forChatFlow: String? = nil) throws -> URL {
         guard let hublet = hublet.flatMap(Hublet.init(id:)),
               let portalId
@@ -403,8 +406,11 @@ public class HubspotManager: NSObject, ObservableObject {
             queryItems["chatflow"] = chatFlow
         } else if let chatFlow = forChatFlow, !chatFlow.isEmpty {
             queryItems["chatflow"] = chatFlow
-        } else if let defaultChatFlow {
+        } else if let defaultChatFlow, !defaultChatFlow.isEmpty {
             queryItems["chatflow"] = defaultChatFlow
+        } else {
+            // No chatflow, but we know we need one
+            throw HubspotConfigError.missingChatFlow
         }
 
         var urlNoPlus = CharacterSet.urlQueryAllowed
