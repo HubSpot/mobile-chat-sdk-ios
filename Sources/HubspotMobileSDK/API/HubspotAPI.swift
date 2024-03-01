@@ -118,7 +118,6 @@ class HubspotAPI {
         request.httpBody = requestData
         let (_, response) = try await urlSession.data(for: request)
 
-
         if let httpResponse = response as? HTTPURLResponse {
             // We aren't expecting any content as a response, just that it succeeded - hopefully the try await above is sufficient.
             // Logging the code in debug builds just to confirm for now

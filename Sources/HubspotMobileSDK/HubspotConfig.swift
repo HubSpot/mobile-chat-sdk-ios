@@ -54,7 +54,6 @@ public enum HubspotConfigError: LocalizedError {
             return "Couldn't find a configuration at the expected path \(HubspotConfig.defaultConfigFileName)"
         case .missingChatFlow:
             return "No chat flow provided, and no default found"
-
         }
     }
 
@@ -64,7 +63,6 @@ public enum HubspotConfigError: LocalizedError {
             return "Couldn't find a configuration at the expected path \(HubspotConfig.defaultConfigFileName)"
         case .missingChatFlow:
             return "No chat flow provided, and no default found"
-
         }
     }
 }

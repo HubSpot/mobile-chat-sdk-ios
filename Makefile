@@ -62,8 +62,8 @@ build-demo: set-demo-version
 	xcodebuild \
 	-allowProvisioningUpdates \
 	-authenticationKeyPath $(AUTH_KEY_PATH) \
-    -authenticationKeyID $(AUTH_KEY_ID) \
-    -authenticationKeyIssuerID $(AUTH_KEY_ISSUERID) \
+	-authenticationKeyID $(AUTH_KEY_ID) \
+	-authenticationKeyIssuerID $(AUTH_KEY_ISSUERID) \
 	-workspace HubspotSDK.xcworkspace \
 	-scheme HubspotDemo \
 	-destination generic/platform=iOS \
@@ -93,23 +93,7 @@ upload-demo:
 	-authenticationKeyIssuerID $(AUTH_KEY_ISSUERID) \
 	-exportArchive -archivePath ${DEMO_ARCHIVE_DIR} \
 	-exportOptionsPlist demo-uploadoptions.plist
-
-custom-selfhosted-deploy:
-	@echo "Building .ipa and using our custom tools for internal deployment and hosting"
-	ios-beta-gen --app ${DEMO_ARCHIVE_DIR}
-	@echo "Would deploy as version number $(BUILD_NUMBER) / $(GITHUB_RUN_NUMBER)"
-	tapadoo-beta -p ios upload HubspotDemo betabuild.tmp/HubspotDemo-$(GITHUB_RUN_NUMBER).ipa betabuild.tmp/HubspotDemo-$(GITHUB_RUN_NUMBER)-metadata.json
-	tapadoo-beta promote -i HubspotDemo $(GITHUB_RUN_NUMBER)
-	@echo "Believe that its been uploaded and is available now"
-
-custom-legacy-selfhosted-deploy:
-	@echo "Building .ipa and using our custom tools for internal deployment and hosting"
-	ios-beta-gen --app ${LEGACY_DEMO_ARCHIVE_DIR}
-	@echo "Would deploy as version number $(BUILD_NUMBER) / $(GITHUB_RUN_NUMBER)"
-	tapadoo-beta -p ios upload HubspotLegacyDemo betabuild.tmp/HubspotLegacyUIDemo-$(GITHUB_RUN_NUMBER).ipa betabuild.tmp/HubspotLegacyUIDemo-$(GITHUB_RUN_NUMBER)-metadata.json
-	tapadoo-beta promote -i HubspotLegacyDemo $(GITHUB_RUN_NUMBER)
-	@echo "Believe that its been uploaded and is available now"
-
+	
 #
 # Note: Untested. Keeping this incase I need it, but it will only build frameworks if the library type is set to dynamic in the Package.swift
 # 
