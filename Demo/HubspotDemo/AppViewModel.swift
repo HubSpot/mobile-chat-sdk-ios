@@ -50,6 +50,10 @@ class AppViewModel: ObservableObject {
 
     init() {
         notificationDelegate = DemoAppNotificationDelegate()
+
+        // Configure Hubspot Manager before we set the notification delegate, otherwise, if a notification is being opened, there's no known portal id set
+
+        setupHubspot()
         UNUserNotificationCenter.current().delegate = notificationDelegate
 
         setChatProperties()

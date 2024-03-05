@@ -112,6 +112,7 @@ struct ChooseDemoView: View {
 
         guard let notification
         else {
+            logger.error("Notification chat data was nil! we can't open a chat when its nil like that")
             return
         }
 
@@ -119,6 +120,8 @@ struct ChooseDemoView: View {
         if !showChatFromPushNotification {
             selectedChatData = notification
             showChatFromPushNotification = true
+        } else {
+            logger.error("Can't show chat a second time, its already open apparently")
         }
     }
 }

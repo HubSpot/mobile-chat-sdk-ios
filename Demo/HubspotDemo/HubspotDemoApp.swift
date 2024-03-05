@@ -23,7 +23,6 @@ struct HubspotDemoApp: App {
                 .environmentObject(appViewModel)
                 .task {
                     appViewModel.configure(appDelegate)
-                    appViewModel.setupHubspot()
                 }
                 .onChange(of: scenePhase, perform: { val in
                     if val == .active {
