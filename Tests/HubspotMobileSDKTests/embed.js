@@ -29,7 +29,7 @@ if (window.HubSpotConversations) {
     configureHubspotConversations();
 } else if (Array.isArray(window.hsConversationsOnReady)) {
     window.hsConversationsOnReady.push(configureHubspotConversations);
-else {
+} else {
     window.hsConversationsOnReady = [configureHubspotConversations];
 }
 
