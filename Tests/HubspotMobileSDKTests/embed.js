@@ -27,7 +27,9 @@ window.webkit.messageHandlers.nativeApp.postMessage({ "info": "starting main loa
 
 if (window.HubSpotConversations) {
     configureHubspotConversations();
-} else {
+} else if (Array.isArray(window.hsConversationsOnReady)) {
+    window.hsConversationsOnReady.push(configureHubspotConversations);
+else {
     window.hsConversationsOnReady = [configureHubspotConversations];
 }
 
