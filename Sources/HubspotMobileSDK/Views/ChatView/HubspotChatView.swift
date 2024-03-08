@@ -191,11 +191,16 @@ struct HubspotChatWebView: UIViewRepresentable {
     /// This will load the chat url in the website, if available. Called automatically.
     func updateUIView(_ webView: WKWebView, context: Context) {
         do {
+            /// If we have already failed to load the widget, we don't want to try again - what happens is as the webview isn't loaded, it triggers the update view, attempts to load fails, the view reloads, thinks it needs to update, and repeats
+            guard !viewModel.failedToLoadWidget else {
+                return
+            }
+
             let urlToLoad = try manager.chatUrl(withPushData: pushData, forChatFlow: chatFlow)
             let request = URLRequest(url: urlToLoad)
 
             Task {
-                viewModel.didStartLoading()
+                await viewModel.didStartLoading()
             }
             // Debugging delay to attach safari debugger
 
@@ -303,6 +308,26 @@ struct HubspotChatWebView: UIViewRepresentable {
             }
         }
 
+        func webView(_: WKWebView, didFail navigation: WKNavigation!, withError error: any Error) {
+            let isMain = navigation == mainLoadNavReference
+
+            if isMain {
+                Task {
+                    await self.viewModel.didFailToLoadUrl(error: error)
+                }
+            }
+        }
+
+        func webView(_: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: any Error) {
+            let isMain = navigation == mainLoadNavReference
+
+            if isMain {
+                Task {
+                    await self.viewModel.didFailToLoadUrl(error: error)
+                }
+            }
+        }
+
         func userContentController(_: WKUserContentController, didReceive message: WKScriptMessage) {
             if let dict = message.body as? [String: Any] {
                 /// this message is sent on widget loading
@@ -341,44 +366,47 @@ class ChatViewModel: ObservableObject {
 
     @Published var configError: HubspotConfigError?
 
-    var timeoutTask: Task<Void, Never>? = nil
-
     /// Call when we are going to load the widget embed url
-    func didStartLoading() {
-        guard !loading else { return }
+    func didStartLoading() async {
+        // Reset and update loading flags,  but only if set to avoid unneeded mutations
+        if failedToLoadWidget {
+            failedToLoadWidget = false
+        }
 
-        loading = true
-
-        timeoutTask?.cancel()
-
-        timeoutTask = Task {
-            do {
-                try await Task.sleep(nanoseconds: 10_000_000_000)
-                // If we were cancelled, consider the loading finished and not timed out
-                if loading, !Task.isCancelled {
-                    failedToLoadWidget = true
-                    loading = false
-                }
-            } catch {
-                // Any failure with sleep is likely issue with task being cancelled - assume not needed to do anything
-            }
+        if !loading {
+            loading = true
         }
     }
 
     /// Call when url is loaded - we may or may not want to consider this the final step
-    func didLoadUrl() {
-        // Currently, nothing considered loaded here as we are still waiting for javascript to load
+    func didLoadUrl() async {
+        if loading {
+            loading = false
+        }
+    }
+
+    func didFailToLoadUrl(error: Error) async {
+        if let urlError = error as? URLError {
+            switch urlError.code {
+            case URLError.cancelled:
+                // ignore cancels as they can trigger during retry I believe
+                break
+            default:
+                // All other cases, consider the widget not loaded
+                if !failedToLoadWidget {
+                    failedToLoadWidget = true
+                }
+            }
+        }
+
+        if loading {
+            loading = false
+        }
     }
 
     /// Call when the widget emits a loaded message - this might be our indication that the widget has loaded at all
-    func didLoadWidget() {
-        guard loading else { return }
-
-        timeoutTask?.cancel()
-        timeoutTask = nil
-        DispatchQueue.main.async {
-            self.loading = false
-        }
+    func didLoadWidget() async {
+        // nothing - removing our custom error display as there's one as part of the widget now
     }
 
     func setError(_ error: Error) {
