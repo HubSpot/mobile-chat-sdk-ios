@@ -53,7 +53,7 @@ struct TabBarWithGlobalFloatingButton: View {
     struct FloatingButtonAlignmentPreferenceKey: PreferenceKey {
         typealias Value = Anchor<CGPoint>?
 
-        static var defaultValue: Anchor<CGPoint>? = .none
+        static let defaultValue: Anchor<CGPoint>? = .none
 
         static func reduce(value: inout Anchor<CGPoint>?, nextValue: () -> Anchor<CGPoint>?) {
             if let nextValue = nextValue() {

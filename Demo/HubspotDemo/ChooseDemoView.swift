@@ -203,6 +203,7 @@ struct ToolBarExamplesListView: View {
 }
 
 extension View {
+    @MainActor
     func setPreviewEnvironment() -> some View {
         environmentObject(AppViewModel()).environmentObject(DemoAppDelegate())
     }

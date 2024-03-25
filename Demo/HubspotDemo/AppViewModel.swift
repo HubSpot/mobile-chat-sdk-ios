@@ -28,6 +28,7 @@ class AppViewModel: ObservableObject {
         self.appDelegate = appDelegate
     }
 
+    @MainActor
     func setupHubspot() {
         do {
             try HubspotManager.configure()
@@ -48,6 +49,7 @@ class AppViewModel: ObservableObject {
         }
     }
 
+    @MainActor
     init() {
         notificationDelegate = DemoAppNotificationDelegate()
 
@@ -65,6 +67,7 @@ class AppViewModel: ObservableObject {
         .store(in: &subs)
     }
 
+    @MainActor
     func addCustomProperty(key: String, value: String) {
         let key = key.trimmingCharacters(in: .whitespacesAndNewlines)
         let value = value.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -81,6 +84,7 @@ class AppViewModel: ObservableObject {
     }
 
     /// Set some example properties on the Hubspot sdk
+    @MainActor
     func setChatProperties() {
         let cameraAllowed = AVCaptureDevice.authorizationStatus(for: .video) == .authorized
 
@@ -100,7 +104,7 @@ class AppViewModel: ObservableObject {
         HubspotManager.shared.setChatProperties(data: myProperties)
     }
 
-    func registerForPush() {
+    @MainActor func registerForPush() {
         guard canRequestPush else {
             return
         }

@@ -38,7 +38,6 @@ struct ChatFromCustomButton: View {
                     }).fullScreenCover(isPresented: $showChatFullscreen, content: {
                         NavigationStack {
                             HubspotChatView()
-                                .edgesIgnoringSafeArea(.all)
                                 .toolbar {
                                     ToolbarItem(placement: .topBarTrailing, content: {
                                         Button(action: {

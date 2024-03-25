@@ -195,7 +195,7 @@ struct NotificationsView: View {
         }
     }
 
-    func checkPermissions() async {
+    @MainActor func checkPermissions() async {
         let settings = await UNUserNotificationCenter.current().notificationSettings()
         notificationCentrePermission = settings.notificationCenterSetting == .enabled
         notificationAlertPermission = settings.alertSetting == .enabled

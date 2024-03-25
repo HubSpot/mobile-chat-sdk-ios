@@ -42,7 +42,7 @@ struct Hublet {
 
 /// Errors relating to setting up SDK
 public enum HubspotConfigError: LocalizedError {
-    /// Missing config file, or missing value within - if this error occurs, make sure hubspot info file is bundled in app, and that  the manager configure method  ``HubspotManager/configure()`` has been called .
+    /// Missing config file, or missing value within - if this error occurs, make sure hubspot info file is bundled in app, and that  the manager configure method  ``HubspotManager/configure()-swift.type.method`` has been called .
     case missingConfiguration
 
     /// Chat flow is needed to correctly show a chat

@@ -20,7 +20,7 @@ import UserNotifications
 ///
 /// The presence of any of these keys is use to indicate that the push message is for a hubspot chat. They are used by the helper method ``HubspotManager/isHubspotNotification(notification:)`` or ``HubspotManager/isHubspotNotification(notificationData:)``
 ///
-public struct PushNotificationChatData {
+public struct PushNotificationChatData: Sendable {
     /*
         "hsPortalId": "abc123",
         "hsChatflowId": "id",

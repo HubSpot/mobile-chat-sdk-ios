@@ -16,7 +16,7 @@ private func createDefaultHubspotLogger() -> Logger {
 
 /// The main interface for the Hubspot mobile SDK.
 ///
-/// Call ``configure()`` before using. Chat sessions can be started & shown  using ``HubspotChatView``
+/// Call ``configure()-swift.type.method`` before using. Chat sessions can be started & shown  using ``HubspotChatView``
 ///
 /// Use ``setUserIdentity(identityToken:email:)`` to optionally identify users with server side generated tokens.
 ///
@@ -24,9 +24,11 @@ private func createDefaultHubspotLogger() -> Logger {
 ///
 /// For more setup instructions, see <doc:GettingStarted>
 ///
+///
 public class HubspotManager: NSObject, ObservableObject {
-    /// Shared instance to be used app wide
-    public private(set) static var shared = HubspotManager()
+    /// Shared instance that can be used app wide, instead of creating an managing own instance.
+    /// If not using this instance, and instead managing your own instance, make sure to pass your instance as an argument to the ``HubspotChatView`` or other components.
+    public static let shared = HubspotManager()
 
     /// The hublet to use, if configured
     public private(set) var hublet: String?
@@ -100,7 +102,8 @@ public class HubspotManager: NSObject, ObservableObject {
                          environment: environment)
     }
 
-    /// Load SDK configuration from bundled config file, applied to the shared instance ``shared``
+    /// Load SDK configuration from bundled config file. Note this only applies to the shared instance ``shared`` , if you intend to create a new instance of `HubspotManager`, you should use the non static version on that instance , ``configure()-swift.method``
+    ///
     /// throws ``HubspotConfigError`` if config file isnt as expected
     public static func configure() throws {
         try shared.configure()
@@ -111,9 +114,9 @@ public class HubspotManager: NSObject, ObservableObject {
         api = HubspotAPI(logger: logger)
     }
 
-    /// Configure SDK with the bundled config file
+    /// Configure this SDK instance with the bundled `Hubspot-Info.plist`  config file from the main bundle.
     ///  - throws: `HubspotConfigError.missingConfiguration` thrown if config file cannot be found in the bundle, or if it contains missing required items.
-    func configure() throws {
+    public func configure() throws {
         guard let plistUrl = Bundle.main.url(forResource: HubspotConfig.defaultConfigFileName, withExtension: nil) else {
             throw HubspotConfigError.missingConfiguration
         }

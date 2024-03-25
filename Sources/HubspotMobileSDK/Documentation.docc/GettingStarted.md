@@ -25,6 +25,20 @@ Be sure to download and include the `Hubspot-Info.plist` file from your hubspot 
 The SDK needs to be configured once per app launch, before use. The most convenient place to do this is during the app initialiser or the app delegate callback, like so:
 
 ```swift
+import HubspotMobileSDK
+
+@main
+struct MyApp: App {
+    
+    init() {
+        try! HubspotManager.configure()
+    }
+
+```
+
+or in a an app delegate:
+
+```swift
 func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     
     // Override point for customization after application launch.
@@ -35,6 +49,8 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
     return true
 }
 ```
+
+
 
 #### Initialisation Errors
 
