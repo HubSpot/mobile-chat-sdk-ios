@@ -1,5 +1,20 @@
 # Hubspot Mobile SDK for iOS
 
+## Overview
+
+HubSpot's iOS Mobile Chat SDK is designed to seamlessly integrate HubSpot Chat into any iOS mobile application (see [here](https://github.hubspot.com/mobile-chat-sdk-android/) for the Android documentation). With this SDK, developers can effortlessly provide their users with a fast, efficient, and empathetic in-app customer support experience.
+
+### Key Features
+
+* Integrate HubSpot Chat into your mobile app to deliver real-time, in-app customer support.
+* Leverage HubSpot's powerful Bots and Knowledge Base to deflect customer inquiries 24/7.
+* Alert users of new messages via push notifications.
+* Customize the chat experience to align with your brand and user interface.
+
+### Private Beta Launch
+
+We are excited to announce that the Mobile Chat SDK will soon launch to private beta. If you're interested in being among the first to experience its capabilities and provide valuable feedback, we invite you to apply for the private beta program using [this form](https://forms.gle/nk3SHDATUP4pBUqi9).
+
 ## Installation
 
 Add the SDK to your project using Swift Package Manager using this repo url. From the project settings, select the Package Dependencies tab, beside Info and Build Settings tab. Search with this url to find and add the package.
