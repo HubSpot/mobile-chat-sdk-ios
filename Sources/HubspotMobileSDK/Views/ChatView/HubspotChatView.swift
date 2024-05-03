@@ -28,6 +28,20 @@ import WebKit
 /// HubspotChatView(manager: HubspotManager.shared, chatFlow: "support")
 /// ```
 ///
+/// ### Handling Links (Optional)
+///
+/// The chat may have links within that are targeted at opening in a new window. The ``HubspotChatView`` triggers these using the SwiftUI open url environment action. By default, this will cause the system to open the url in the external browser.
+///
+/// These can be handled in an alternative way if desired by providing an alternative url handler using SwiftUIs exsting open url environment feature
+///
+/// ```swift
+/// HubspotChatView()
+/// .environment(\.openURL, OpenURLAction(handler: { URL in
+///     /// Handle opening of link in chat in some in app browser, or some other method
+///     return OpenURLAction.Result.systemAction
+/// }))
+/// ```
+///
 /// ### Opening Chat From Push Notification
 ///
 /// If opening chat view in response to a push notification , ideally extract important information from the notification using the ``PushNotificationChatData`` struct , and pass to the initialiser like so:
@@ -124,6 +138,9 @@ struct HubspotChatWebView: UIViewRepresentable {
     private let chatFlow: String?
     private let pushData: PushNotificationChatData?
 
+    @Environment(\.openURL)
+    var openURLAction
+
     // Note - not a state , or observed object - we don't need to monitor it here
     let viewModel: ChatViewModel
 
@@ -147,11 +164,14 @@ struct HubspotChatWebView: UIViewRepresentable {
     }
 
     func makeCoordinator() -> WebviewCoordinator {
-        return WebviewCoordinator(manager: manager, viewModel: viewModel)
+        return WebviewCoordinator(manager: manager, viewModel: viewModel, urlHandler: openURLAction)
     }
 
     func makeUIView(context: Context) -> WKWebView {
         let configuration = WKWebViewConfiguration()
+
+        let coordinator = context.coordinator
+        coordinator.urlHandler = context.environment[keyPath: \.openURL]
 
         configuration.applicationNameForUserAgent = "HubspotMobileSDK"
         configuration.websiteDataStore = .default()
@@ -221,9 +241,12 @@ struct HubspotChatWebView: UIViewRepresentable {
         let viewModel: ChatViewModel
         let manager: HubspotManager
 
-        init(manager: HubspotManager, viewModel: ChatViewModel) {
+        var urlHandler: OpenURLAction
+
+        init(manager: HubspotManager, viewModel: ChatViewModel, urlHandler: OpenURLAction) {
             self.manager = manager
             self.viewModel = viewModel
+            self.urlHandler = urlHandler
         }
 
         let handlerName = "nativeApp"
@@ -345,6 +368,30 @@ struct HubspotChatWebView: UIViewRepresentable {
                     // Now we know the id of newly selected thread, we can inform the manager which will handle next steps for data
                     manager.handleThreadOpened(threadId: String(conversationId))
                 }
+            }
+        }
+
+        func webView(_: WKWebView, decidePolicyFor navigationAction: WKNavigationAction) async -> WKNavigationActionPolicy {
+            // Most navigations are allowed, as that matches default behaviour. But for links specifically, we do additional checks
+            switch navigationAction.navigationType {
+            case .linkActivated:
+                if navigationAction.targetFrame?.isMainFrame ?? false {
+                    // For links specifically targeting the main frame, lets assume that's intentional to replace chat?
+                    // If links are incorrectly being sent targeting the main frame handle it like the else branch for all link activated
+                    return .allow
+                } else if let url = navigationAction.request.url {
+                    // A link not targeting the main frame would be a pop up, other tab type attempt at opening. Use the system open URL and cancel any nav within the webview
+                    urlHandler(url)
+                    return .cancel
+                } else {
+                    // Not sure what the link type would be without a url - whatever it is , just default to allowing it
+                    return .allow
+                }
+
+            case .formSubmitted, .backForward, .reload, .formResubmitted, .other:
+                return .allow
+            @unknown default:
+                return .allow
             }
         }
     }
