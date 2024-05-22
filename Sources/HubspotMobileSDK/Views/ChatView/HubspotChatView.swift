@@ -407,30 +407,6 @@ struct HubspotChatWebView: UIViewRepresentable {
                 return .allow
             }
         }
-
-        func webView(_: WKWebView, decidePolicyFor navigationAction: WKNavigationAction) async -> WKNavigationActionPolicy {
-            // Most navigations are allowed, as that matches default behaviour. But for links specifically, we do additional checks
-            switch navigationAction.navigationType {
-            case .linkActivated:
-                if navigationAction.targetFrame?.isMainFrame ?? false {
-                    // For links specifically targeting the main frame, lets assume that's intentional to replace chat?
-                    // If links are incorrectly being sent targeting the main frame handle it like the else branch for all link activated
-                    return .allow
-                } else if let url = navigationAction.request.url {
-                    // A link not targeting the main frame would be a pop up, other tab type attempt at opening. Use the system open URL and cancel any nav within the webview
-                    urlHandler(url)
-                    return .cancel
-                } else {
-                    // Not sure what the link type would be without a url - whatever it is , just default to allowing it
-                    return .allow
-                }
-
-            case .formSubmitted, .backForward, .reload, .formResubmitted, .other:
-                return .allow
-            @unknown default:
-                return .allow
-            }
-        }
     }
 }
 
