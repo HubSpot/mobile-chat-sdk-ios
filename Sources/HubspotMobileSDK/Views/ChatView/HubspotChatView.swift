@@ -94,7 +94,7 @@ public struct HubspotChatView: View {
 
     @ViewBuilder
     var loadingView: some View {
-        if viewModel.loading {
+        if viewModel.loadingState == .loading {
             ProgressView()
                 .progressViewStyle(.circular)
         } else {
@@ -171,7 +171,7 @@ struct HubspotChatWebView: UIViewRepresentable {
         let configuration = WKWebViewConfiguration()
 
         let coordinator = context.coordinator
-        coordinator.urlHandler = context.environment[keyPath: \.openURL]
+        coordinator.urlHandler = context.environment.openURL
 
         configuration.applicationNameForUserAgent = "HubspotMobileSDK"
         configuration.websiteDataStore = .default()
@@ -211,8 +211,18 @@ struct HubspotChatWebView: UIViewRepresentable {
     /// This will load the chat url in the website, if available. Called automatically.
     func updateUIView(_ webView: WKWebView, context: Context) {
         do {
-            /// If we have already failed to load the widget, we don't want to try again - what happens is as the webview isn't loaded, it triggers the update view, attempts to load fails, the view reloads, thinks it needs to update, and repeats
+            // If we have already failed to load the widget, we don't want to try again - what happens is as the webview isn't loaded, it triggers the update view, attempts to load fails, the view reloads, thinks it needs to update, and repeats infinitely
             guard !viewModel.failedToLoadWidget else {
+                return
+            }
+
+            // lets also update our link handler, incase the reason for the update is the handler changing
+            context.coordinator.urlHandler = context.environment.openURL
+
+            // We also don't want to re-trigger a load of the same url again in the webview after we've already finished loading
+            // Unrelated SwiftUI environment changes might trigger the updateUIView method - so if we loaded successfully, do nothing.
+            // Otherwise continue with the main load attempt
+            if viewModel.loadingState == .finished {
                 return
             }
 
@@ -222,7 +232,6 @@ struct HubspotChatWebView: UIViewRepresentable {
             Task {
                 await viewModel.didStartLoading()
             }
-            // Debugging delay to attach safari debugger
 
             let mainLoadNavReference = webView.load(request)
             context.coordinator.mainLoadNavReference = mainLoadNavReference
@@ -352,22 +361,50 @@ struct HubspotChatWebView: UIViewRepresentable {
         }
 
         func userContentController(_: WKUserContentController, didReceive message: WKScriptMessage) {
-            if let dict = message.body as? [String: Any] {
-                /// this message is sent on widget loading
-                if let message = dict["message"] as? String, message == "widget has loaded" {
-                    Task {
-                        await viewModel.didLoadWidget()
-                    }
+            guard let dict = message.body as? [String: Any] else {
+                // Without body, there's no action to take
+                return
+            }
+
+            /// this message is sent on widget loading
+            if let message = dict["message"] as? String, message == "widget has loaded" {
+                Task {
+                    await viewModel.didLoadWidget()
+                }
+            }
+
+            // We are looking to get conversation object , if sent.
+            if
+
+                let conversationDict = dict["conversation"] as? [String: Any],
+                let conversationId = conversationDict["conversationId"] as? Int
+            {
+                // Now we know the id of newly selected thread, we can inform the manager which will handle next steps for data
+                manager.handleThreadOpened(threadId: String(conversationId))
+            }
+        }
+
+        func webView(_: WKWebView, decidePolicyFor navigationAction: WKNavigationAction) async -> WKNavigationActionPolicy {
+            // Most navigations are allowed, as that matches default behaviour. But for links specifically, we do additional checks
+            switch navigationAction.navigationType {
+            case .linkActivated:
+                if navigationAction.targetFrame?.isMainFrame ?? false {
+                    // For links specifically targeting the main frame, lets assume that's intentional to replace chat?
+                    // If links are incorrectly being sent targeting the main frame handle it like the else branch for all link activated
+                    return .allow
+                } else if let url = navigationAction.request.url {
+                    // A link not targeting the main frame would be a pop up, other tab type attempt at opening. Use the system open URL and cancel any nav within the webview
+                    urlHandler(url)
+                    return .cancel
+                } else {
+                    // Not sure what the link type would be without a url - whatever it is , just default to allowing it
+                    return .allow
                 }
 
-                // We are looking to get conversation object , if sent.
-                if
-                    let conversationDict = dict["conversation"] as? [String: Any],
-                    let conversationId = conversationDict["conversationId"] as? Int
-                {
-                    // Now we know the id of newly selected thread, we can inform the manager which will handle next steps for data
-                    manager.handleThreadOpened(threadId: String(conversationId))
-                }
+            case .formSubmitted, .backForward, .reload, .formResubmitted, .other:
+                return .allow
+            @unknown default:
+                return .allow
             }
         }
 
@@ -401,9 +438,19 @@ struct HubspotChatWebView: UIViewRepresentable {
 /// May migrate more functionality that was direct to manager here in future
 @MainActor
 class ChatViewModel: ObservableObject {
-    @Published private(set) var loading: Bool = false
+    /// Enum for tracking our progress loading the main url we embed in the webview
+    enum MainURLLoadState {
+        case notLoaded
+        case loading
+        case finished
+        case failed
+    }
 
-    var failedToLoadWidget = false
+    @Published private(set) var loadingState: MainURLLoadState = .notLoaded
+
+    var failedToLoadWidget: Bool {
+        return loadingState == .failed
+    }
 
     /// used to show error instead of chat view webview
     var isFailure: Bool {
@@ -416,19 +463,15 @@ class ChatViewModel: ObservableObject {
     /// Call when we are going to load the widget embed url
     func didStartLoading() async {
         // Reset and update loading flags,  but only if set to avoid unneeded mutations
-        if failedToLoadWidget {
-            failedToLoadWidget = false
-        }
-
-        if !loading {
-            loading = true
+        if loadingState != .loading {
+            loadingState = .loading
         }
     }
 
     /// Call when url is loaded - we may or may not want to consider this the final step
     func didLoadUrl() async {
-        if loading {
-            loading = false
+        if loadingState != .finished {
+            loadingState = .finished
         }
     }
 
@@ -436,18 +479,18 @@ class ChatViewModel: ObservableObject {
         if let urlError = error as? URLError {
             switch urlError.code {
             case URLError.cancelled:
-                // ignore cancels as they can trigger during retry I believe
+                // ignore cancels as they can trigger during retry I believe, so this isn't the end
+                // loadingState = .notLoaded
                 break
             default:
                 // All other cases, consider the widget not loaded
-                if !failedToLoadWidget {
-                    failedToLoadWidget = true
+                if loadingState != .failed {
+                    loadingState = .failed
                 }
             }
-        }
-
-        if loading {
-            loading = false
+        } else {
+            /// We want to change our loading state back to the start for any other error
+            loadingState = .notLoaded
         }
     }
 
