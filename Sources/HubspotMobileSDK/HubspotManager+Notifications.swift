@@ -122,13 +122,13 @@ public extension HubspotManager {
 /// Making the `HubspotManager` your user notification delete is not required, but its an option for convenience in situations where another delegate doesn't already exist.
 extension HubspotManager: UNUserNotificationCenterDelegate {
     /// Use this method to help identify incoming notifications that are hubspot related , incase you wish to handle them differently
-    public func isHubspotNotification(notification: UNNotification) -> Bool {
+    public nonisolated func isHubspotNotification(notification: UNNotification) -> Bool {
         let notificationData = notification.request.content.userInfo
         return isHubspotNotification(notificationData: notificationData)
     }
 
     /// Use this method to help identify incoming notifications that are hubspot related , incase you wish to handle them differently
-    public func isHubspotNotification(notificationData: [AnyHashable: Any]) -> Bool {
+    public nonisolated func isHubspotNotification(notificationData: [AnyHashable: Any]) -> Bool {
         let hasAHubspotKey = notificationData.contains(where: { key, _ in
             guard let key = key as? String else {
                 return false
@@ -148,7 +148,7 @@ extension HubspotManager: UNUserNotificationCenterDelegate {
     /// A ``HubspotManager`` instanance, like ``HubspotManager/shared`` can be used as a notification centre delegate, in situations where all notifications are from hubspot. If you have your own notification delegate, instead call this method from within your own delegate for notifications that are hubspot related.
     ///
     ///
-    public func userNotificationCenter(_: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+    public nonisolated func userNotificationCenter(_: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         if isHubspotNotification(notification: response.notification) {
             guard let chatData = PushNotificationChatData(notification: response.notification) else {
                 // none of the expected data in the message
@@ -161,14 +161,16 @@ extension HubspotManager: UNUserNotificationCenterDelegate {
                 self.newMessage.send(chatData)
             }
         } else {
-            logger.info("Push message handled by HubspotManager that isn't detected as as Hubspot notifiation. This may be a misconfiguration.")
+            Task { @MainActor in
+                logger.info("Push message handled by HubspotManager that isn't detected as as Hubspot notifiation. This may be a misconfiguration. \(response)")
+            }
         }
         completionHandler()
     }
 
     /// A ``HubspotManager`` instanance, like ``HubspotManager/shared`` can be used as a notification centre delegate, in situations where all notifications are from hubspot. If you have your own notification delegate, instead call this method from within your own delegate for notifications that are hubspot related.
     ///
-    public func userNotificationCenter(_: UNUserNotificationCenter, willPresent _: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+    public nonisolated func userNotificationCenter(_: UNUserNotificationCenter, willPresent _: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.banner, .sound])
     }
 }

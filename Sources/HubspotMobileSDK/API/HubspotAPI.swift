@@ -27,12 +27,10 @@ class HubspotAPI {
     private let jsonDecoder: JSONDecoder = .init()
 
     private let urlSession = URLSession(configuration: .default)
-    private let baseUrl = URL(string: "https://api.hubapi.com/")!
 
-    func sendDeviceToken(token: Data, portalId: String) async throws {
+    func sendDeviceToken(hublet: Hublet, token: Data, portalId: String) async throws {
         // POST
-
-        let apiUrl = baseUrl.appendingPathComponent("livechat-public/v1/mobile-sdk/device-token")
+        let apiUrl = hublet.apiURL.appendingPathComponent("livechat-public/v1/mobile-sdk/device-token")
 
         guard var components = URLComponents(url: apiUrl, resolvingAgainstBaseURL: false) else {
             throw APIError.requestError
@@ -62,9 +60,9 @@ class HubspotAPI {
         #endif
     }
 
-    func deleteDeviceToken(token: Data, portalId: String) async throws {
+    func deleteDeviceToken(hublet: Hublet, token: Data, portalId: String) async throws {
         // DELETE
-        let apiUrl = baseUrl.appendingPathComponent("livechat-public/v1/mobile-sdk/device-token/\(token.toHexString())")
+        let apiUrl = hublet.apiURL.appendingPathComponent("livechat-public/v1/mobile-sdk/device-token/\(token.toHexString())")
 
         guard var components = URLComponents(url: apiUrl, resolvingAgainstBaseURL: false) else {
             throw APIError.requestError
@@ -90,14 +88,15 @@ class HubspotAPI {
 
     /// Post chat properties for a specific thread id to the api.
     /// - Parameters:
+    ///   - hublet: destination hublet
     ///   - properties: The collection of properties to post.
     ///   - visitorIdToken: The token set by the app to identify user. Optional.
     ///   - threadId: The thread id read from the chat view / javascript bridge that identifies the current open thread
     ///   - portalId: Account portal id
-    func sendChatProperties(properties: [String: String], visitorIdToken: String?, email: String?, threadId: String, portalId: String) async throws {
+    func sendChatProperties(hublet: Hublet, properties: [String: String], visitorIdToken: String?, email: String?, threadId: String, portalId: String) async throws {
         let urlProperties = ["portalId": portalId, "threadId": threadId]
 
-        let apiUrl = baseUrl.appendingPathComponent("livechat-public/v1/mobile-sdk/metadata")
+        let apiUrl = hublet.apiURL.appendingPathComponent("livechat-public/v1/mobile-sdk/metadata")
         guard var urlBuilder = URLComponents(url: apiUrl, resolvingAgainstBaseURL: false) else {
             throw APIError.requestError
         }
@@ -134,14 +133,15 @@ class HubspotAPI {
     ///  - WARNING: Embedding access token for your product in app is not recommended - This was originally for demo purposes, and may be removed. Strongly consider creating a token as part of app server infrastructure instead.
     ///
     /// - Parameters:
+    ///   - hublet: destination hublet
     ///   - accessToken: The access token for your application, as returned by the Hubspot dashboard
     ///   - email: the email of the user
     ///   - firstName: users first name
     ///   - lastName: users last name
     /// - Returns: The generated JWT token
-    func createVisitorToken(accessToken: String, email: String, firstName: String, lastName: String) async throws -> String {
+    func createVisitorToken(hublet: Hublet, accessToken: String, email: String, firstName: String, lastName: String) async throws -> String {
         // Later, if we have lots of requests we can refactor this to have common base path
-        let url = baseUrl.appendingPathComponent("conversations/v3/visitor-identification/tokens/create")
+        let url = hublet.apiURL.appendingPathComponent("conversations/v3/visitor-identification/tokens/create")
 
         let requestModel = CreateVisitorTokenRequest(email: email, firstName: firstName, lastName: lastName)
         let requestData = try jsonEncoder.encode(requestModel)

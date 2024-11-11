@@ -6,7 +6,7 @@
 import Foundation
 
 /// Enum used during configuration. The default is production - if in doubt choose production
-public enum HubspotEnvironment: String, Codable, CustomStringConvertible {
+public enum HubspotEnvironment: String, Codable, CustomStringConvertible, Sendable {
     /// QA environment , mostly for internal use
     case qa
     /// Production environment, the most commonly used environment
@@ -28,15 +28,69 @@ struct Hublet {
     let defaultUS = "na1"
 
     let id: String
+    let environment: HubspotEnvironment
 
     /// The format of subdomain varies between hublets
-    var appsSubDomain: String {
-        if id.lowercased() == defaultUS {
+    private var appsSubDomain: String {
+        let id = id.lowercased()
+        if id == defaultUS {
             return "app"
         } else {
             // other hublets like eu1 have hublet in the subdomain
             return "app-\(id)"
         }
+    }
+
+    private var appsDomain: String {
+        // Right now, qa env has its own domain
+        switch environment {
+        case .production:
+            return "hubspot.com"
+        case .qa:
+            return "hubspotqa.com"
+        }
+    }
+
+    /// The format of subdomain varies between hublets
+    private var apiSubDomain: String {
+        let id = id.lowercased()
+        if id == defaultUS {
+            return "api"
+        } else {
+            // other hublets like eu1 have hublet in the subdomain
+            return "api-\(id)"
+        }
+    }
+
+    private var apiDomain: String {
+        // Right now, qa env has its own domain
+        switch environment {
+        case .production:
+            return "hubapi.com"
+        case .qa:
+            return "hubapiqa.com"
+        }
+    }
+
+    /// hostname used for the embedded chat page
+    var hostname: String {
+        return appsSubDomain + "." + appsDomain
+    }
+
+    /// hostname used for api calls
+    var apiHostname: String {
+        return apiSubDomain + "." + apiDomain
+    }
+
+    /// base url for api calls - append path before using
+    var apiURL: URL {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = apiHostname
+        guard let url = components.url else {
+            fatalError("Unable to build URL from configuration")
+        }
+        return url
     }
 }
 

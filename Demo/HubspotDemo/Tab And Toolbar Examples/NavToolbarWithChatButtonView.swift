@@ -5,6 +5,7 @@
 
 import HubspotMobileSDK
 import SwiftUI
+
 struct NavToolbarWithChatButtonView: View {
     @State var showingChat = false
 

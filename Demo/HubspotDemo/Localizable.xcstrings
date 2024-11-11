@@ -68,7 +68,13 @@
     "Chat" : {
 
     },
+    "Chat Flow" : {
+
+    },
     "Chat with us" : {
+
+    },
+    "Clear any edited values previously saved, and go back to using the bundled config values" : {
 
     },
     "Clear data" : {
@@ -119,15 +125,6 @@
     "Default flow - value taken from initial config: %@" : {
 
     },
-    "Demo 1" : {
-
-    },
-    "Demo 2" : {
-
-    },
-    "Demo 3" : {
-
-    },
     "Details" : {
 
     },
@@ -135,6 +132,9 @@
 
     },
     "Dismiss" : {
+
+    },
+    "Edit Config" : {
 
     },
     "Email" : {
@@ -271,6 +271,9 @@
     "Not set" : {
 
     },
+    "Note: Editing the config during runtime may result in some inconsistent behaviour after editing. Fully stopping the app via multi tasker and relaunching may be a convenient way to reset any inconsistent behaviour due to run time config changes." : {
+
+    },
     "Notifications" : {
 
     },
@@ -312,7 +315,10 @@
     "Portal ID" : {
 
     },
-    "Preview" : {
+    "Production" : {
+
+    },
+    "QA" : {
 
     },
     "Recent Pushes" : {
@@ -322,6 +328,18 @@
 
     },
     "Request Token" : {
+
+    },
+    "Reset" : {
+
+    },
+    "Reset Config" : {
+
+    },
+    "Reset to default" : {
+
+    },
+    "Save Config" : {
 
     },
     "SDK Options" : {
@@ -391,9 +409,6 @@
 
     },
     "This is tab 3" : {
-
-    },
-    "This is the preview content" : {
 
     },
     "Token" : {

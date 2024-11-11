@@ -31,7 +31,23 @@ class AppViewModel: ObservableObject {
     @MainActor
     func setupHubspot() {
         do {
-            try HubspotManager.configure()
+            if let newPortalId: String = UserDefaults.standard[.overridePortalId],
+               let newHublet: String = UserDefaults.standard[.overrideHublet],
+               let envStr: String = UserDefaults.standard[.overrideEnv],
+               let newEnv = HubspotEnvironment(rawValue: envStr)
+            {
+                let newChatFlow: String? = UserDefaults.standard[.overrideDefaultChatFlow]
+
+                // User has previously edited the config via settings, so use those instead of the default which looks for the info plist in the bundle
+                // This way could also be used to support different test / production env at run time based on variables
+                HubspotManager.configure(portalId: newPortalId,
+                                         hublet: newHublet,
+                                         defaultChatFlow: newChatFlow,
+                                         environment: newEnv)
+            } else {
+                // the default configure which reads from file dropped into the project, for convenience.
+                try HubspotManager.configure()
+            }
 
             // If we already configured the demo with a token and email previously, re-set the user identity
             if let existingToken: String = UserDefaults.standard[.idToken],
@@ -117,6 +133,10 @@ class AppViewModel: ObservableObject {
 enum StorageKeys: String {
     case idToken
     case userEmail
+    case overridePortalId
+    case overrideHublet
+    case overrideEnv
+    case overrideDefaultChatFlow
 }
 
 extension UserDefaults {
@@ -127,6 +147,10 @@ extension UserDefaults {
         set {
             setValue(newValue, forKey: storageKey.rawValue)
         }
+    }
+
+    func removeObject(forStorageKey: StorageKeys) {
+        removeObject(forKey: forStorageKey.rawValue)
     }
 }
 
