@@ -25,6 +25,7 @@ private func createDefaultHubspotLogger() -> Logger {
 /// For more setup instructions, see <doc:GettingStarted>
 ///
 ///
+@MainActor
 public class HubspotManager: NSObject, ObservableObject {
     /// Shared instance that can be used app wide, instead of creating an managing own instance.
     /// If not using this instance, and instead managing your own instance, make sure to pass your instance as an argument to the ``HubspotChatView`` or other components.
@@ -75,8 +76,14 @@ public class HubspotManager: NSObject, ObservableObject {
         }
     }
 
-    /// The manager uses combine to listen for some device notifications, like changes
-    var combineSubs: Set<AnyCancellable> = []
+    private var hubletModel: Hublet? {
+        guard let hublet
+        else {
+            return nil
+        }
+
+        return Hublet(id: hublet, environment: environment)
+    }
 
     /// Record if we turned on battery monitoring. If we didn't turn it on , we might not want to turn it off again.
     var didWeEnableBatterMonitoring: Bool = false
@@ -130,6 +137,7 @@ public class HubspotManager: NSObject, ObservableObject {
             portalId = config.portalId
             environment = config.environment
             defaultChatFlow = config.defaultChatFlow
+            objectWillChange.send()
 
             sendPushTokenIfNeeded()
 
@@ -154,6 +162,8 @@ public class HubspotManager: NSObject, ObservableObject {
         self.hublet = hublet
         self.environment = environment
         self.defaultChatFlow = defaultChatFlow
+
+        objectWillChange.send()
     }
 
     /// Convenience to set the logger to the disabled logger
@@ -193,6 +203,7 @@ public class HubspotManager: NSObject, ObservableObject {
             switch self.pushTokenSyncState {
             case .notSent:
                 shouldSendToken = true
+
             case let .sending(lastActionDate):
                 let interval = abs(lastActionDate.timeIntervalSinceNow)
 
@@ -220,7 +231,11 @@ public class HubspotManager: NSObject, ObservableObject {
             self.pushTokenSyncState = .sending(.now)
 
             do {
-                try await api.sendDeviceToken(token: pushToken, portalId: portalId)
+                guard let hubletModel else {
+                    throw HubspotConfigError.missingConfiguration
+                }
+                try await api.sendDeviceToken(hublet: hubletModel, token: pushToken, portalId: portalId)
+
                 if !Task.isCancelled {
                     self.pushTokenSyncState = .sent(.now)
                 } else {
@@ -313,7 +328,7 @@ public class HubspotManager: NSObject, ObservableObject {
             properties[ChatPropertyKey.notificationPermissions.rawValue] = "false"
         }
 
-        properties[ChatPropertyKey.operatingSystemVersion.rawValue] = await "\(UIDevice.current.systemName) \(UIDevice.current.systemVersion)"
+        properties[ChatPropertyKey.operatingSystemVersion.rawValue] = "\(UIDevice.current.systemName) \(UIDevice.current.systemVersion)"
 
         if let infoDict = Bundle.main.infoDictionary,
            let shortVersion = infoDict["CFBundleShortVersionString"],
@@ -322,21 +337,21 @@ public class HubspotManager: NSObject, ObservableObject {
             properties[ChatPropertyKey.appVersion.rawValue] = "\(shortVersion).\(buildVersion)"
         }
 
-        let screenBounds = await UIScreen.main.bounds
+        let screenBounds = UIScreen.main.bounds
         let screenWidth = screenBounds.width
         let screenHeight = screenBounds.height
-        let scale = await UIScreen.main.scale
+        let scale = UIScreen.main.scale
 
         properties[ChatPropertyKey.screenSize.rawValue] = "\(Int(screenWidth))x\(Int(screenHeight))"
         properties[ChatPropertyKey.screenResolution.rawValue] = "\(Int(screenWidth * scale))x\(Int(screenHeight * scale))"
-        properties[ChatPropertyKey.deviceOrientation.rawValue] = await UIDevice.current.orientation.hubspotApiValue
+        properties[ChatPropertyKey.deviceOrientation.rawValue] = UIDevice.current.orientation.hubspotApiValue
 
         // ignore when battery is reported as -1, or some negative to indicate its invalid
-        if await UIDevice.current.batteryLevel >= 0 {
-            let batteryLevelRounded = await Int((UIDevice.current.batteryLevel * 100).rounded())
+        if UIDevice.current.batteryLevel >= 0 {
+            let batteryLevelRounded = Int((UIDevice.current.batteryLevel * 100).rounded())
             properties[ChatPropertyKey.batteryLevel.rawValue] = String(batteryLevelRounded)
         }
-        properties[ChatPropertyKey.batteryState.rawValue] = await UIDevice.current.batteryState.hubspotApiValue
+        properties[ChatPropertyKey.batteryState.rawValue] = UIDevice.current.batteryState.hubspotApiValue
 
         // Platform is just fixed, no point in trying to detect it at runtime
         properties[ChatPropertyKey.platform.rawValue] = "ios"
@@ -350,10 +365,10 @@ public class HubspotManager: NSObject, ObservableObject {
         sendPushTokenTask?.cancel()
 
         /// First, remove the push token, if we can
-        if let pushToken, let portalId {
+        if let pushToken, let portalId, let hubletModel {
             Task {
                 do {
-                    try await api.deleteDeviceToken(token: pushToken, portalId: portalId)
+                    try await api.deleteDeviceToken(hublet: hubletModel, token: pushToken, portalId: portalId)
                 } catch {
                     logger.error("Error deleting push token from api: \(error)")
                 }
@@ -379,20 +394,22 @@ public class HubspotManager: NSObject, ObservableObject {
     /// - Returns: URL to embed to show mobile chat
     ///  - Throws: ``HubspotConfigError.missingConfiguration`` if app settings like portal id or hublet are missing, or ``HubspotConfigError.missingChatFlow`` if no chat flow is provided and no default value exists
     func chatUrl(withPushData: PushNotificationChatData?, forChatFlow: String? = nil) throws -> URL {
-        guard let hublet = hublet.flatMap(Hublet.init(id:)),
+        guard let hublet,
               let portalId
         else {
             throw HubspotConfigError.missingConfiguration
         }
 
+        let hubletModel = Hublet(id: hublet, environment: environment)
+
         var components = URLComponents()
         components.scheme = "https"
-        components.host = hublet.appsSubDomain + ".hubspot.com"
+        components.host = hubletModel.hostname
         components.path = "/conversations-visitor-embed"
 
         var queryItems: [String: String] = [
             "portalId": portalId,
-            "hublet": hublet.id,
+            "hublet": hubletModel.id,
             "env": environment.rawValue,
         ]
 
@@ -443,7 +460,7 @@ public class HubspotManager: NSObject, ObservableObject {
     /// Handle obtaining a thread id - once the thread id is known , we can post chat properties to the API. This method is used by chat views once they've extracted ID from UI / Javascript Bridge.
     /// - Parameter threadId: the thread id retrieved from the active chat view
     func handleThreadOpened(threadId: String) {
-        guard let portalId else {
+        guard let portalId, let hubletModel else {
             return
         }
 
@@ -453,7 +470,8 @@ public class HubspotManager: NSObject, ObservableObject {
             let props = await finalizeChatProperties()
 
             do {
-                try await api.sendChatProperties(properties: props,
+                try await api.sendChatProperties(hublet: hubletModel,
+                                                 properties: props,
                                                  visitorIdToken: self.userIdentityToken,
                                                  email: self.userEmailAddress,
                                                  threadId: threadId,
@@ -496,6 +514,10 @@ public extension HubspotManager {
     /// - Returns: The generated JWT token
     @available(*, deprecated, message: "This is for development only and may be removed - acquiring an access token should be done as part of your products server infrastructure")
     func aquireUserIdentityToken(accessToken: String, email: String, firstName: String, lastName: String) async throws -> String {
-        return try await api.createVisitorToken(accessToken: accessToken, email: email, firstName: firstName, lastName: lastName)
+        guard let hubletModel else {
+            throw HubspotConfigError.missingConfiguration
+        }
+
+        return try await api.createVisitorToken(hublet: hubletModel, accessToken: accessToken, email: email, firstName: firstName, lastName: lastName)
     }
 }

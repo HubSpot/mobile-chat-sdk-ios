@@ -35,7 +35,8 @@ struct HubspotDemoApp: App {
 }
 
 /// Example of a app level notification delegate that also forwards calls to hubspot delegate
-class DemoAppNotificationDelegate: NSObject, ObservableObject, UNUserNotificationCenterDelegate {
+@MainActor
+class DemoAppNotificationDelegate: NSObject, ObservableObject, @preconcurrency UNUserNotificationCenterDelegate {
     /// Count of recent pushes received in the foreground
     @Published var countOfpushesReceived = 0
     /// Count of the notifications received we think are for hubspot content

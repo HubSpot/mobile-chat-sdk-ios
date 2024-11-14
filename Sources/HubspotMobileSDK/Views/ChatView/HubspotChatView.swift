@@ -69,11 +69,11 @@ public struct HubspotChatView: View {
     ///   - manager: manager to use when creating urls for account and getting user properties
     ///   - pushData: Struct containing any of the hubspot values from the push body payload.
     ///   - chatFlow: The specific chat flow to open, if any
-    public init(manager: HubspotManager = HubspotManager.shared,
+    public init(manager: HubspotManager? = nil,
                 pushData: PushNotificationChatData? = nil,
                 chatFlow: String? = nil)
     {
-        self.manager = manager
+        self.manager = manager ?? .shared
         self.chatFlow = chatFlow
         self.pushData = pushData
     }
@@ -374,10 +374,8 @@ struct HubspotChatWebView: UIViewRepresentable {
             }
 
             // We are looking to get conversation object , if sent.
-            if
-
-                let conversationDict = dict["conversation"] as? [String: Any],
-                let conversationId = conversationDict["conversationId"] as? Int
+            if let conversationDict = dict["conversation"] as? [String: Any],
+               let conversationId = conversationDict["conversationId"] as? Int
             {
                 // Now we know the id of newly selected thread, we can inform the manager which will handle next steps for data
                 manager.handleThreadOpened(threadId: String(conversationId))
@@ -403,6 +401,7 @@ struct HubspotChatWebView: UIViewRepresentable {
 
             case .formSubmitted, .backForward, .reload, .formResubmitted, .other:
                 return .allow
+
             @unknown default:
                 return .allow
             }

@@ -22,6 +22,7 @@
 		968FB4C32B173A8600D6FC68 /* Hubspot-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 968FB4C22B173A8600D6FC68 /* Hubspot-Info.plist */; };
 		96AA34F32B45D0D8004FED6D /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 96AA34F22B45D0D8004FED6D /* Localizable.xcstrings */; };
 		96B54C062B63B9CF00AF5545 /* DemoPlaceholderFeatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B54C052B63B9CF00AF5545 /* DemoPlaceholderFeatureView.swift */; };
+		96BF7DF22C5A77CB00E50806 /* EditConfigView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BF7DF12C5A77CB00E50806 /* EditConfigView.swift */; };
 		96D9BA422B56CBB700E0A3E8 /* CustomPropertiesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D9BA412B56CBB700E0A3E8 /* CustomPropertiesListView.swift */; };
 		96D9BA462B5EAF9600E0A3E8 /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D9BA452B5EAF9600E0A3E8 /* NotificationsView.swift */; };
 		96E75DAA2B0E70B2002DC1F5 /* FloatingButtonExampleContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E75DA92B0E70B2002DC1F5 /* FloatingButtonExampleContainerView.swift */; };
@@ -48,6 +49,7 @@
 		968FB4C22B173A8600D6FC68 /* Hubspot-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Hubspot-Info.plist"; sourceTree = "<group>"; };
 		96AA34F22B45D0D8004FED6D /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		96B54C052B63B9CF00AF5545 /* DemoPlaceholderFeatureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoPlaceholderFeatureView.swift; sourceTree = "<group>"; };
+		96BF7DF12C5A77CB00E50806 /* EditConfigView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditConfigView.swift; sourceTree = "<group>"; };
 		96D9BA412B56CBB700E0A3E8 /* CustomPropertiesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPropertiesListView.swift; sourceTree = "<group>"; };
 		96D9BA432B5E762700E0A3E8 /* HubspotDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HubspotDemo.entitlements; sourceTree = "<group>"; };
 		96D9BA452B5EAF9600E0A3E8 /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
@@ -167,6 +169,7 @@
 			isa = PBXGroup;
 			children = (
 				96E88BBE2B07857400F29EB5 /* SDKOptionsView.swift */,
+				96BF7DF12C5A77CB00E50806 /* EditConfigView.swift */,
 			);
 			path = Debug;
 			sourceTree = "<group>";
@@ -268,6 +271,7 @@
 				968FB4BF2B10F02000D6FC68 /* ToolbarWithChatButtonView.swift in Sources */,
 				96E75DAA2B0E70B2002DC1F5 /* FloatingButtonExampleContainerView.swift in Sources */,
 				96E88BBF2B07857400F29EB5 /* SDKOptionsView.swift in Sources */,
+				96BF7DF22C5A77CB00E50806 /* EditConfigView.swift in Sources */,
 				968FB4BD2B10BDFC00D6FC68 /* NavToolbarWithChatButtonView.swift in Sources */,
 				968FB4B72B0F7D9F00D6FC68 /* PlaceholderView.swift in Sources */,
 				9624CDCD2B068528009FFC2D /* HubspotDemoApp.swift in Sources */,
@@ -433,7 +437,7 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -471,7 +475,7 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

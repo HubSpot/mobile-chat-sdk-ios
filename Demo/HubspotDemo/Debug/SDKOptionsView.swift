@@ -66,6 +66,9 @@ struct SDKOptionsView: View {
             detailRow(label: "Hublet", value: manager.hublet ?? "<Not Available>")
             detailRow(label: "Environment", value: manager.environment.description)
             detailRow(label: "Default Chat Flow", value: manager.defaultChatFlow ?? "<Not Available>")
+            NavigationLink(destination: EditConfigView(), label: {
+                Text("Edit Config")
+            })
         }
     }
 

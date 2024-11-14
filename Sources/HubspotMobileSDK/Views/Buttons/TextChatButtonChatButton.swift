@@ -24,9 +24,9 @@ public struct TextChatButton: View {
     ///   - text: The text in the button - if nil, default text is used.
     ///   - manager: The manager to use for getting a chat session. By defautl the shared manager is used.
     ///   - chatFlow: The specific chat flow to open. Optional.
-    public init(text: LocalizedStringKey? = nil, manager: HubspotManager = .shared, chatFlow: String? = nil) {
+    public init(text: LocalizedStringKey? = nil, manager: HubspotManager? = nil, chatFlow: String? = nil) {
         customText = text
-        self.manager = manager
+        self.manager = manager ?? .shared
         self.chatFlow = chatFlow
     }
 

@@ -26,15 +26,31 @@ clean:
 	rm -rf ${LEGACY_DEMO_ARCHIVE_DIR}
 	rm -rf ${FRAMEWORKS_OUTPUT}
 
+swift-lint:
+
+	swift format lint --recursive Sources
+	swift format lint --recursive  Tests
+	swift format lint --recursive  Demo
+	swift format lint --recursive  UIKitDemo
+
 lint:
-	swiftformat --lint --swiftversion 5.9 Sources
-	swiftformat --lint --swiftversion 5.9 Demo
-	swiftformat --lint --swiftversion 5.9 UIKitDemo
+	swiftformat --lint --swiftversion 5.10 Sources
+	swiftformat --lint --swiftversion 5.10 Tests
+	swiftformat --lint --swiftversion 5.10 Demo
+	swiftformat --lint --swiftversion 5.10 UIKitDemo
 
 format:
-	swiftformat --swiftversion 5.9 Sources
-	swiftformat --swiftversion 5.9 Demo
-	swiftformat --swiftversion 5.9 UIKitDemo
+	swiftformat --swiftversion 5.10 Sources
+	swiftformat --swiftversion 5.10 Tests
+	swiftformat --swiftversion 5.10 Demo
+	swiftformat --swiftversion 5.10 UIKitDemo
+
+swift-format:
+
+	swift format --in-place --recursive Sources
+	swift format --in-place --recursive  Tests
+	swift format --in-place --recursive  Demo
+	swift format --in-place --recursive  UIKitDemo
 
 make-doc-archive:
 	xcodebuild \

@@ -41,10 +41,10 @@ public struct FloatingActionButton: View {
     /// - Parameters:
     ///   - manager: The manager to use for getting a chat session. By defautl the shared manager is used.
     ///   - chatFlow: The specific chat flow to open. Optional.
-    public init(manager: HubspotManager = .shared,
+    public init(manager: HubspotManager? = nil,
                 chatFlow: String? = nil)
     {
-        self.manager = manager
+        self.manager = manager ?? HubspotManager.shared
         self.chatFlow = chatFlow
     }
 
@@ -79,8 +79,8 @@ struct FloatingActionButtonOverlayModifier: ViewModifier {
     let manager: HubspotManager
     let chatFlow: String?
 
-    init(manager: HubspotManager = .shared, chatFlow: String? = nil) {
-        self.manager = manager
+    init(manager: HubspotManager? = nil, chatFlow: String? = nil) {
+        self.manager = manager ?? HubspotManager.shared
         self.chatFlow = chatFlow
     }
 
@@ -97,7 +97,7 @@ public extension View {
     /// - Parameters:
     ///     - manager: The hubspot manager to use
     ///     - chatFlow: the chat flow targeting parameter to use
-    func overlayHubspotFloatingActionButton(manager: HubspotManager = .shared, chatFlow: String? = nil) -> some View {
+    func overlayHubspotFloatingActionButton(manager: HubspotManager? = nil, chatFlow: String? = nil) -> some View {
         return modifier(FloatingActionButtonOverlayModifier(manager: manager, chatFlow: chatFlow))
     }
 }
