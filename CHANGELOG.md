@@ -4,9 +4,9 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
-## [1.0.4] - 2024-XX-XX
+## [1.0.4] - 2024-11-11
 
-### In Progress
+### Fixed
 
 - Added additional support for different hublets and environments when forming chat and api urls
 
