@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
+ ## [Unreleased]
+
+### Fixed
+
+- Added Fix for issue with missing isolation on Xcode 15 with Web View Delegate
+
 ## [1.0.4] - 2024-11-11
 
 ### Fixed
