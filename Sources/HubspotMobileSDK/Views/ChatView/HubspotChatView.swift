@@ -1,7 +1,7 @@
 // HubspotChatView.swift
 // Hubspot Mobile SDK
 //
-// Copyright © 2024 Hubspot, Inc.
+// Copyright © 2025 Hubspot, Inc.
 
 import SwiftUI
 import WebKit
@@ -377,8 +377,15 @@ struct HubspotChatWebView: UIViewRepresentable {
             if let conversationDict = dict["conversation"] as? [String: Any],
                let conversationId = conversationDict["conversationId"] as? Int
             {
-                // Now we know the id of newly selected thread, we can inform the manager which will handle next steps for data
-                manager.handleThreadOpened(threadId: String(conversationId))
+                #if compiler(<6)
+                    // Adding an assume isolated for Xcode 15 support - this isn't needed in Xcode 16, but the WKScriptMessageHandler doesn't have the main actor isolation
+                    MainActor.assumeIsolated {
+                        manager.handleThreadOpened(threadId: String(conversationId))
+                    }
+                #else
+                    // Now we know the id of newly selected thread, we can inform the manager which will handle next steps for data
+                    manager.handleThreadOpened(threadId: String(conversationId))
+                #endif
             }
         }
 
