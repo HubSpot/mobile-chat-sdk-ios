@@ -127,7 +127,7 @@ struct NotificationsView: View {
             }
 
             if let token = appDelegate.deviceToken,
-               let tokenDate = appDelegate.tokenDate
+                let tokenDate = appDelegate.tokenDate
             {
                 Divider()
 
@@ -196,9 +196,18 @@ struct NotificationsView: View {
     }
 
     @MainActor func checkPermissions() async {
-        let settings = await UNUserNotificationCenter.current().notificationSettings()
-        notificationCentrePermission = settings.notificationCenterSetting == .enabled
-        notificationAlertPermission = settings.alertSetting == .enabled
+        // UNUserNotificationCenter is not sendable, resulting in error sending from nonisolated to the main actor, so need to use non isolated task to find value, then pass basic bools back to main actor to update view properties - seems a bit overkill just to access notification center from something as common as main actor isolated code - possibly will be fixed in future versions of tools?
+
+        Task.detached {
+            let settings = await UNUserNotificationCenter.current().notificationSettings()
+            let notificationCentrePermission = settings.notificationCenterSetting == .enabled
+            let notificationAlertPermission = settings.alertSetting == .enabled
+
+            Task { @MainActor in
+                self.notificationAlertPermission = notificationAlertPermission
+                self.notificationCentrePermission = notificationCentrePermission
+            }
+        }
     }
 }
 

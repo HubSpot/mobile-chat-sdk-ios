@@ -7,8 +7,8 @@ import Foundation
 import OSLog
 
 /// Not public class yet, as its not known if we need to expose API directly to app.
-class HubspotAPI {
-    var logger: Logger
+final class HubspotAPI: Sendable {
+    let logger: Logger
 
     init(logger: Logger) {
         self.logger = logger

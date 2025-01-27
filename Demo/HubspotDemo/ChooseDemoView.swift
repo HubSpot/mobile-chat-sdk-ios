@@ -1,7 +1,7 @@
 // ChooseDemoView.swift
 // Hubspot Mobile SDK Demo Application
 //
-// Copyright © 2024 Hubspot, Inc.
+// Copyright © 2025 Hubspot, Inc.
 
 import HubspotMobileSDK
 import SwiftUI
@@ -22,60 +22,95 @@ struct ChooseDemoView: View {
         NavigationStack {
             List {
                 Section {
-                    NavigationLink(destination: ChatFromCustomButton(), label: {
-                        Text("Custom buttons")
+                    NavigationLink(
+                        destination: ChatFromCustomButton(),
+                        label: {
+                            Text("Custom buttons")
+                        }
+                    )
 
-                    })
+                    NavigationLink(
+                        destination: FloatingExamplesListView(),
+                        label: {
+                            Text("Floating button examples")
+                        }
+                    )
 
-                    NavigationLink(destination: FloatingExamplesListView(), label: {
-                        Text("Floating button examples")
-                    })
+                    NavigationLink(
+                        destination: ToolBarExamplesListView(),
+                        label: {
+                            Text("Nav bars & toolbars")
+                        }
+                    )
 
-                    NavigationLink(destination: ToolBarExamplesListView(), label: {
-                        Text("Nav bars & toolbars")
-                    })
-
-                    NavigationLink(destination: SpecificChatFlowView(), label: {
-                        Text("Specific chat flow")
-                    })
+                    NavigationLink(
+                        destination: SpecificChatFlowView(),
+                        label: {
+                            Text("Specific chat flow")
+                        }
+                    )
                 }
                 Section {
-                    NavigationLink(destination: CustomPropertiesListView(), label: {
-                        Text("Custom Properties")
-                    })
+                    NavigationLink(
+                        destination: CustomPropertiesListView(),
+                        label: {
+                            Text("Custom Properties")
+                        }
+                    )
                 }
 
                 Section {
-                    NavigationLink(destination: NotificationsView(), label: {
-                        Text("Notifications")
-                    })
+                    NavigationLink(
+                        destination: NotificationsView(),
+                        label: {
+                            Text("Notifications")
+                        }
+                    )
                 }
             }
             .navigationTitle("Hubspot Demo")
             .toolbar(content: {
-                ToolbarItem(placement: .topBarTrailing, content: {
-                    Button(action: {
-                        withAnimation {
-                            showDebugOptions = true
-                        }
-                    }, label: {
-                        Image(systemName: "gearshape.fill")
-                    })
-                })
+                ToolbarItem(
+                    placement: .topBarTrailing,
+                    content: {
+                        Button(
+                            action: {
+                                withAnimation {
+                                    showDebugOptions = true
+                                }
+                            },
+                            label: {
+                                Image(systemName: "gearshape.fill")
+                            }
+                        )
+                    }
+                )
             })
-            .sheet(isPresented: $showDebugOptions, content: {
-                SDKOptionsView()
-            })
-            .fullScreenCover(isPresented: $appViewModel.hubspotSdkFailure, content: {
-                sdkSetupFailureView
-                    .padding()
-            }).sheet(isPresented: $showChatFromPushNotification, content: {
-                // Here, we are using a sheet over our initial content ui - but this might be best somewhere else in your own app struture, depending on how your root view is managed.
-                HubspotChatView(manager: HubspotManager.shared, pushData: selectedChatData)
-            })
-            .sheet(isPresented: $showAppFeatureFromPushNotification, content: {
-                DemoPlaceholderFeatureView()
-            })
+            .sheet(
+                isPresented: $showDebugOptions,
+                content: {
+                    SDKOptionsView()
+                }
+            )
+            .fullScreenCover(
+                isPresented: $appViewModel.hubspotSdkFailure,
+                content: {
+                    sdkSetupFailureView
+                        .padding()
+                }
+            ).sheet(
+                isPresented: $showChatFromPushNotification,
+                content: {
+                    // Here, we are using a sheet over our initial content ui - but this might be best somewhere else in your own app struture, depending on how your root view is managed.
+                    HubspotChatView(manager: HubspotManager.shared, pushData: selectedChatData)
+                }
+            )
+            .sheet(
+                isPresented: $showAppFeatureFromPushNotification,
+                content: {
+                    DemoPlaceholderFeatureView()
+                }
+            )
             .onReceive(appViewModel.notificationDelegate.$selectedAppNotification, perform: handleAppNotificationsNotForChat)
             .onReceive(appViewModel.notificationDelegate.$selectedChatNotification, perform: handleUserSelectingChatNotification)
         }
@@ -128,9 +163,10 @@ struct ChooseDemoView: View {
 
 struct FloatingExamplesListView: View {
     var floatingExampleWithBar: some View {
-        FloatingButtonExampleContainerView(description: """
-            This example shows the floating button used in a view with a standard toolbar configured - the buttons in the toolbar do nothing. The floating chat button avoids the bar.
-            """
+        FloatingButtonExampleContainerView(
+            description: """
+                This example shows the floating button used in a view with a standard toolbar configured - the buttons in the toolbar do nothing. The floating chat button avoids the bar.
+                """
         ).navigationTitle("Floating button (with bar)")
             .toolbar {
                 ToolbarItemGroup(placement: .bottomBar) {
@@ -143,28 +179,44 @@ struct FloatingExamplesListView: View {
 
     var body: some View {
         List {
-            NavigationLink(destination: FloatingButtonExampleContainerView(description: """
-                This example shows the chat button without any tabs - the button doesn't have to be in a navigation component, as it presents its content modally
-                """
-            ), label: {
-                Text("Floating button")
-            })
+            NavigationLink(
+                destination: FloatingButtonExampleContainerView(
+                    description: """
+                        This example shows the chat button without any tabs - the button doesn't have to be in a navigation component, as it presents its content modally
+                        """
+                ),
+                label: {
+                    Text("Floating button")
+                }
+            )
 
-            NavigationLink(destination: floatingExampleWithBar, label: {
-                Text("Floating button (with bar)")
-            })
+            NavigationLink(
+                destination: floatingExampleWithBar,
+                label: {
+                    Text("Floating button (with bar)")
+                }
+            )
 
-            NavigationLink(destination: FloatingButtonModifierView(), label: {
-                Text("Floating button (view modifier)")
-            })
+            NavigationLink(
+                destination: FloatingButtonModifierView(),
+                label: {
+                    Text("Floating button (view modifier)")
+                }
+            )
 
-            NavigationLink(destination: TabBarWithGlobalFloatingButton(), label: {
-                Text("Tabs + Floating button (global)")
-            })
+            NavigationLink(
+                destination: TabBarWithGlobalFloatingButton(),
+                label: {
+                    Text("Tabs + Floating button (global)")
+                }
+            )
 
-            NavigationLink(destination: TabBarWithIndividualFloatingButton(), label: {
-                Text("Tabs + Floating button (single tabs)")
-            })
+            NavigationLink(
+                destination: TabBarWithIndividualFloatingButton(),
+                label: {
+                    Text("Tabs + Floating button (single tabs)")
+                }
+            )
         }
         .navigationTitle("Floating Button Examples")
         .navigationBarTitleDisplayMode(.inline)
@@ -174,13 +226,19 @@ struct FloatingExamplesListView: View {
 struct ToolBarExamplesListView: View {
     var body: some View {
         List {
-            NavigationLink(destination: NavToolbarWithChatButtonView(), label: {
-                Text("Nav bar button")
-            })
+            NavigationLink(
+                destination: NavToolbarWithChatButtonView(),
+                label: {
+                    Text("Nav bar button")
+                }
+            )
 
-            NavigationLink(destination: ToolbarWithChatButtonView(), label: {
-                Text("toolbar button")
-            })
+            NavigationLink(
+                destination: ToolbarWithChatButtonView(),
+                label: {
+                    Text("toolbar button")
+                }
+            )
         }
     }
 }

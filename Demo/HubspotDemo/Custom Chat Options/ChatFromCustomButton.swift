@@ -1,7 +1,7 @@
 // ChatFromCustomButton.swift
 // Hubspot Mobile SDK Demo Application
 //
-// Copyright © 2024 Hubspot, Inc.
+// Copyright © 2025 Hubspot, Inc.
 
 import HubspotMobileSDK
 import SwiftUI
@@ -13,7 +13,8 @@ struct ChatFromCustomButton: View {
     var body: some View {
         ScrollView {
             VStack {
-                Text("""
+                Text(
+                    """
                     Use these regular buttons to start a chat. This button styling isn't from the SDK, but contained within the demo app, to show that any sort of custom styling could be used on a button that shows the chat view.
 
                     This set of buttons also show the different iOS navigation patterns - modal , full screen, and pushed onto navigation stack.
@@ -21,39 +22,51 @@ struct ChatFromCustomButton: View {
                 ).padding()
 
                 VStack {
-                    Button(action: {
-                        showChat.toggle()
-                    }, label: {
-                        Text("\(Image(systemName: "message.badge.circle.fill")) Chat Now (sheet/modal)")
-
-                    }).sheet(isPresented: $showChat, content: {
-                        HubspotChatView(manager: HubspotManager.shared)
-                    })
-
-                    Button(action: {
-                        showChatFullscreen.toggle()
-                    }, label: {
-                        Text("\(Image(systemName: "message.badge.circle.fill")) Chat Now (fullscreen)")
-
-                    }).fullScreenCover(isPresented: $showChatFullscreen, content: {
-                        NavigationStack {
-                            HubspotChatView()
-                                .toolbar {
-                                    ToolbarItem(placement: .topBarTrailing, content: {
-                                        Button(action: {
-                                            showChatFullscreen = false
-                                        }, label: {
-                                            Image(systemName: "xmark")
-                                        })
-                                    })
-                                }
+                    Button(
+                        action: {
+                            showChat.toggle()
+                        },
+                        label: {
+                            Text("\(Image(systemName: "message.badge.circle.fill")) Chat Now (sheet/modal)")
                         }
-                    })
+                    ).sheet(
+                        isPresented: $showChat,
+                        content: {
+                            HubspotChatView(manager: HubspotManager.shared)
+                        }
+                    )
 
-                    NavigationLink(destination: HubspotChatView(), label: {
-                        Text("\(Image(systemName: "message.badge.circle.fill")) Chat Now (pushed)")
+                    Button(
+                        action: {
+                            showChatFullscreen.toggle()
+                        },
+                        label: {
+                            Text("\(Image(systemName: "message.badge.circle.fill")) Chat Now (fullscreen)")
+                        }
+                    ).fullScreenCover(
+                        isPresented: $showChatFullscreen,
+                        content: {
+                            NavigationStack {
+                                HubspotChatView()
+                                    .toolbar {
+                                        ToolbarItem(placement: .topBarTrailing) {
+                                            Button(action: {
+                                                showChatFullscreen = false  // Dismiss the full-screen view
+                                            }) {
+                                                Text("Close")
+                                            }
+                                        }
+                                    }
+                            }
+                        }
+                    )
 
-                    })
+                    NavigationLink(
+                        destination: HubspotChatView(),
+                        label: {
+                            Text("\(Image(systemName: "message.badge.circle.fill")) Chat Now (pushed)")
+                        }
+                    )
 
                 }.padding(.horizontal)
                     .buttonStyle(DemoButtonStyle())

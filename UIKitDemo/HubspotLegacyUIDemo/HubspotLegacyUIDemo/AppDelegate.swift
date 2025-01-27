@@ -20,11 +20,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         try! HubspotManager.configure()
 
         // We want sdk to handle our push notifications
-        HubspotManager.shared.configurePushMessaging(promptForNotificationPermissions: false,
-                                                     allowProvisionalNotifications: true,
-                                                     newMessageCallback: { _ in
-                                                         logger.trace("This is the callback indicating that a new message was opened")
-                                                     })
+        HubspotManager.shared.configurePushMessaging(
+            promptForNotificationPermissions: false,
+            allowProvisionalNotifications: true,
+            newMessageCallback: { _ in
+                logger.trace("This is the callback indicating that a new message was opened")
+            })
 
         // There can only be one callback set for new push messages being opened, but
         // alternatively, tasks could be used in multiple places

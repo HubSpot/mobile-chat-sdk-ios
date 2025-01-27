@@ -13,7 +13,7 @@ DOCS_DIR=docs
 # default value for when testing locally
 GITHUB_RUN_NUMBER ?= "1"
 
-FRAMEWORKS_OUTPUT=build/frameworks
+FRAMEWORKS_OUTPUT=./build/frameworks
 FRAMEWORK_NAME=HubspotMobileSDK
 
 clean:
@@ -26,31 +26,17 @@ clean:
 	rm -rf ${LEGACY_DEMO_ARCHIVE_DIR}
 	rm -rf ${FRAMEWORKS_OUTPUT}
 
-swift-lint:
-
-	swift format lint --recursive Sources
-	swift format lint --recursive  Tests
-	swift format lint --recursive  Demo
-	swift format lint --recursive  UIKitDemo
-
 lint:
-	swiftformat --lint --swiftversion 5.10 Sources
-	swiftformat --lint --swiftversion 5.10 Tests
-	swiftformat --lint --swiftversion 5.10 Demo
-	swiftformat --lint --swiftversion 5.10 UIKitDemo
+	swift format lint --recursive --strict Sources
+	swift format lint --recursive --strict Tests
+	swift format lint --recursive --strict Demo
+	swift format lint --recursive --strict UIKitDemo
 
 format:
-	swiftformat --swiftversion 5.10 Sources
-	swiftformat --swiftversion 5.10 Tests
-	swiftformat --swiftversion 5.10 Demo
-	swiftformat --swiftversion 5.10 UIKitDemo
-
-swift-format:
-
 	swift format --in-place --recursive Sources
-	swift format --in-place --recursive  Tests
-	swift format --in-place --recursive  Demo
-	swift format --in-place --recursive  UIKitDemo
+	swift format --in-place --recursive Tests
+	swift format --in-place --recursive Demo
+	swift format --in-place --recursive UIKitDemo
 
 make-doc-archive:
 	xcodebuild \
@@ -115,22 +101,26 @@ upload-demo:
 # 
 create-binary-framework:
 	@echo "Creating a binary xcframework in $(FRAMEWORKS_OUTPUT) - typically we want to add this as a SPM source dependency rather than a binary framework, but  the ability to generate one may still be useful"
+	@echo "Note: update Package.swift to use dynamic type first"
 	
 	xcodebuild archive \
     -workspace HubspotSDK.xcworkspace \
     -scheme HubspotMobileSDK \
     -destination "generic/platform=iOS" \
-    -archivePath "$(FRAMEWORKS_OUTPUT)/$(FRAMEWORK_NAME)" SKIP_INSTALL=NO BUILD_LIBRARY_FOR_DISTRIBUTION=YES
+    -archivePath "$(FRAMEWORKS_OUTPUT)/ios/$(FRAMEWORK_NAME).xcarchive" \
+	SKIP_INSTALL=NO BUILD_LIBRARY_FOR_DISTRIBUTION=YES
 
 	xcodebuild archive \
     -workspace HubspotSDK.xcworkspace \
     -scheme HubspotMobileSDK \
     -destination "generic/platform=iOS Simulator" \
-    -archivePath "$(FRAMEWORKS_OUTPUT)/$(FRAMEWORK_NAME)-iOS_Simulator" SKIP_INSTALL=NO BUILD_LIBRARY_FOR_DISTRIBUTION=YES
+    -archivePath "$(FRAMEWORKS_OUTPUT)/ios-simulator/$(FRAMEWORK_NAME).xcarchive" \
+	SKIP_INSTALL=NO BUILD_LIBRARY_FOR_DISTRIBUTION=YES
 
 	xcodebuild -create-xcframework \
-    -archive "$(FRAMEWORKS_OUTPUT)/$(FRAMEWORK_NAME).xcarchive" -framework $(FRAMEWORK_NAME).framework \
-    -archive "$(FRAMEWORKS_OUTPUT)/$(FRAMEWORK_NAME)-iOS_Simulator.xcarchive" -framework $(FRAMEWORK_NAME).framework \
+    -archive "$(FRAMEWORKS_OUTPUT)/ios/$(FRAMEWORK_NAME).xcarchive" -framework $(FRAMEWORK_NAME).framework \
+    -archive "$(FRAMEWORKS_OUTPUT)/ios-simulator/$(FRAMEWORK_NAME).xcarchive" -framework $(FRAMEWORK_NAME).framework \
     -output "$(FRAMEWORKS_OUTPUT)/$(FRAMEWORK_NAME).xcframework"
 
 	@echo "Created XCFramework (and platform specific frameworks) in $(FRAMEWORKS_OUTPUT)"
+	@echo "WARNING: This is an untested method of integration"

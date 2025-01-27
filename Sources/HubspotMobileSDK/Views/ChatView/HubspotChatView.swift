@@ -7,6 +7,7 @@ import SwiftUI
 import WebKit
 
 /// A SwiftUI view containing Hubspots chat interface. This chat view is intended to be presented modally, with a sheet, for easy dismissal, or as a full screen cover.
+///
 /// > Warning: The chat view also includes an option to take a photo - be sure to include NSCameraUsageDescription in your apps info plist to enable camera functionality. Not doing so may result in a crash if your user attempts to attach a photo.
 ///
 /// As an example for how to present a chat view from a user button:
@@ -42,6 +43,41 @@ import WebKit
 /// }))
 /// ```
 ///
+/// ### Handling Close Action (Optional)
+///
+/// The chat may have a close action triggered. If not customised, it will use the default ``dismiss`` action provided by the SwiftUI environment. Alternatively, you can pass a custom action incase you need to manage some non standard view presentation embed or dismiss method.
+///
+/// Example of using button within chat:
+///
+/// ```
+/// .fullScreenCover(
+///        isPresented: $showChatFullscreen,
+///        content: {
+///            HubspotChatView(dismissChat: {
+///                withAnimation {
+///                    showChatFullscreen = false
+///                }
+///        })
+/// })
+/// ```
+///
+/// However, if your chat flow is not configured with a close option within, and there's no visible dismiss option, consider adding a close button to the view yourself, for example:
+///
+/// ```
+///   NavigationStack {
+///       HubspotChatView()
+///           .toolbar {
+///               ToolbarItem(placement: .topBarTrailing) {
+///                   Button(action: {
+///                       showChatFullscreen = false  // Dismiss the full-screen view
+///                   }) {
+///                       Text("Close")
+///                   }
+///               }
+///           }
+///   }
+/// ```
+///
 /// ### Opening Chat From Push Notification
 ///
 /// If opening chat view in response to a push notification , ideally extract important information from the notification using the ``PushNotificationChatData`` struct , and pass to the initialiser like so:
@@ -59,7 +95,12 @@ public struct HubspotChatView: View {
     private let chatFlow: String?
     private let pushData: PushNotificationChatData?
 
+    /// If set , use a custom dismiss action, otherwise use environment dismiss
+    private let customDismiss: (() -> Void)?
+
     @StateObject var viewModel = ChatViewModel()
+
+    @Environment(\.dismiss) var dismiss
 
     /// Create the chat view, optionally specifying the HubspotManager and Chat Flow to use.
     ///
@@ -69,26 +110,35 @@ public struct HubspotChatView: View {
     ///   - manager: manager to use when creating urls for account and getting user properties
     ///   - pushData: Struct containing any of the hubspot values from the push body payload.
     ///   - chatFlow: The specific chat flow to open, if any
-    public init(manager: HubspotManager? = nil,
-                pushData: PushNotificationChatData? = nil,
-                chatFlow: String? = nil)
-    {
+    ///   - dismissChat: If the chat has a close option, you can optionally set this closure to handle closing chat. If you do not set this, then the chat view will use the standard `dismiss` action from the SwiftUI environment - Use this if you show or embed the chat in some custom or non standard presentation.
+    public init(
+        manager: HubspotManager? = nil,
+        pushData: PushNotificationChatData? = nil,
+        chatFlow: String? = nil,
+        dismissChat: (() -> Void)? = nil
+    ) {
         self.manager = manager ?? .shared
         self.chatFlow = chatFlow
         self.pushData = pushData
+        customDismiss = dismissChat
     }
 
     public var body: some View {
         if viewModel.isFailure {
             errorView
         } else {
-            HubspotChatWebView(manager: manager,
-                               pushData: pushData,
-                               chatFlow: chatFlow,
-                               viewModel: viewModel)
-                .overlay(content: {
-                    loadingView
-                })
+            HubspotChatWebView(
+                manager: manager,
+                pushData: pushData,
+                chatFlow: chatFlow,
+                viewModel: viewModel,
+                dismissAction: {
+                    dismissChat()
+                }
+            )
+            .overlay(content: {
+                loadingView
+            })
         }
     }
 
@@ -128,6 +178,16 @@ public struct HubspotChatView: View {
             }
         }
     }
+
+    private func dismissChat() {
+        if let customDismiss {
+            manager.logger.trace("dismissing chat with custom action")
+            customDismiss()
+        } else {
+            manager.logger.trace("Using dismiss from environment to close chat")
+            dismiss()
+        }
+    }
 }
 
 /// This is the WebView used witin the chat view - its wrapped with ``HubspotChatView`` incase we need to overlay or inline any errors or loading indicators
@@ -141,6 +201,9 @@ struct HubspotChatWebView: UIViewRepresentable {
     @Environment(\.openURL)
     var openURLAction
 
+    /// Custom dismiss action - the parent view will decide how to dismiss
+    var dismissAction: () -> Void
+
     // Note - not a state , or observed object - we don't need to monitor it here
     let viewModel: ChatViewModel
 
@@ -152,19 +215,22 @@ struct HubspotChatWebView: UIViewRepresentable {
     ///   - manager: manager to use when creating urls for account and getting user properties
     ///   - pushData: Struct containing any of the hubspot values from the push body payload.
     ///   - chatFlow: The specific chat flow to open, if any
-    init(manager: HubspotManager,
-         pushData: PushNotificationChatData?,
-         chatFlow: String?,
-         viewModel: ChatViewModel)
-    {
+    init(
+        manager: HubspotManager,
+        pushData: PushNotificationChatData?,
+        chatFlow: String?,
+        viewModel: ChatViewModel,
+        dismissAction: @escaping () -> Void
+    ) {
         self.manager = manager
         self.chatFlow = chatFlow
         self.pushData = pushData
         self.viewModel = viewModel
+        self.dismissAction = dismissAction
     }
 
     func makeCoordinator() -> WebviewCoordinator {
-        return WebviewCoordinator(manager: manager, viewModel: viewModel, urlHandler: openURLAction)
+        WebviewCoordinator(manager: manager, viewModel: viewModel, urlHandler: openURLAction, dismissHandler: dismissAction)
     }
 
     func makeUIView(context: Context) -> WKWebView {
@@ -226,7 +292,10 @@ struct HubspotChatWebView: UIViewRepresentable {
                 return
             }
 
-            let urlToLoad = try manager.chatUrl(withPushData: pushData, forChatFlow: chatFlow)
+            let urlToLoad = try manager.chatUrl(
+                withPushData: pushData,
+                forChatFlow: chatFlow
+            )
             let request = URLRequest(url: urlToLoad)
 
             Task {
@@ -252,67 +321,75 @@ struct HubspotChatWebView: UIViewRepresentable {
 
         var urlHandler: OpenURLAction
 
-        init(manager: HubspotManager, viewModel: ChatViewModel, urlHandler: OpenURLAction) {
+        var dismissHandler: () -> Void
+
+        init(manager: HubspotManager, viewModel: ChatViewModel, urlHandler: OpenURLAction, dismissHandler: @escaping () -> Void) {
             self.manager = manager
             self.viewModel = viewModel
             self.urlHandler = urlHandler
+            self.dismissHandler = dismissHandler
         }
 
+        /// This is the handler used to respond to events on the hubspot conversations object and forward them to the native app
         let handlerName = "nativeApp"
+        let closeHandlerName = "closeChatHandler"
         let contentController = WKUserContentController()
 
         var mainLoadNavReference: WKNavigation?
 
         func setupScripts() {
             contentController.add(self, name: handlerName)
-
+            contentController.add(self, name: closeHandlerName)
             let js = """
-                window.webkit.messageHandlers.nativeApp.postMessage({"info":"setupScripts"});
-            """
+                    window.webkit.messageHandlers.nativeApp.postMessage({"info":"setupScripts"});
+                """
 
             contentController.addUserScript(WKUserScript(source: js, injectionTime: .atDocumentEnd, forMainFrameOnly: false))
 
             // create script that triggers on hubspot event, and calls our message handler
 
             let configCallbacksJS = """
-            function configureHubspotConversations() {
-                if (window.HubSpotConversations) {
-                    window.webkit.messageHandlers.nativeApp.postMessage({ "info": "Setting up handlers" });
-                    window.HubSpotConversations.on('conversationStarted', payload => {
-                        window.webkit.messageHandlers.nativeApp.postMessage(payload);
-                    });
+                function configureHubspotConversations() {
+                    if (window.HubSpotConversations) {
+                        window.webkit.messageHandlers.nativeApp.postMessage({ "info": "Setting up handlers" });
+                        window.HubSpotConversations.on('conversationStarted', payload => {
+                            window.webkit.messageHandlers.nativeApp.postMessage(payload);
+                        });
 
-                    window.HubSpotConversations.on('widgetLoaded', payload => {
-                        window.webkit.messageHandlers.nativeApp.postMessage(payload);
-                    });
+                        window.HubSpotConversations.on('widgetLoaded', payload => {
+                            window.webkit.messageHandlers.nativeApp.postMessage(payload);
+                        });
 
-                    window.HubSpotConversations.on('userInteractedWithWidget', payload => {
-                        window.webkit.messageHandlers.nativeApp.postMessage(payload);
-                    });
+                        window.HubSpotConversations.on('userInteractedWithWidget', payload => {
+                            window.webkit.messageHandlers.nativeApp.postMessage(payload);
+                        });
 
-                    window.HubSpotConversations.on('userSelectedThread', payload => {
-                        window.webkit.messageHandlers.nativeApp.postMessage(payload);
-                    });
+                        window.HubSpotConversations.on('userSelectedThread', payload => {
+                            window.webkit.messageHandlers.nativeApp.postMessage(payload);
+                        });
 
-                    window.webkit.messageHandlers.nativeApp.postMessage({ "info": "Finished setting up handlers" });
-                } else {
-                    window.webkit.messageHandlers.nativeApp.postMessage({ "info": "no object to set handlers on still" });
+                        window.HubSpotConversations.on('sdkCloseButtonClick', payload => {
+                            window.webkit.messageHandlers.closeChatHandler.postMessage(payload);
+                        });
+
+                        window.webkit.messageHandlers.nativeApp.postMessage({ "info": "Finished setting up handlers" });
+                    } else {
+                        window.webkit.messageHandlers.nativeApp.postMessage({ "info": "no object to set handlers on still" });
+                    }
                 }
-            }
 
-            window.webkit.messageHandlers.nativeApp.postMessage({ "info": "starting main load script" });
+                window.webkit.messageHandlers.nativeApp.postMessage({ "info": "starting main load script" });
 
-            if (window.HubSpotConversations) {
-                configureHubspotConversations();
-            } else if (Array.isArray(window.hsConversationsOnReady)) {
-                window.hsConversationsOnReady.push(configureHubspotConversations);
-            } else {
-                window.hsConversationsOnReady = [configureHubspotConversations];
-            }
+                if (window.HubSpotConversations) {
+                    configureHubspotConversations();
+                } else if (Array.isArray(window.hsConversationsOnReady)) {
+                    window.hsConversationsOnReady.push(configureHubspotConversations);
+                } else {
+                    window.hsConversationsOnReady = [configureHubspotConversations];
+                }
 
-            window.webkit.messageHandlers.nativeApp.postMessage({ "info": "finished main load script" });
-            """
-
+                window.webkit.messageHandlers.nativeApp.postMessage({ "info": "finished main load script" });
+                """
             contentController.addUserScript(WKUserScript(source: configCallbacksJS, injectionTime: .atDocumentEnd, forMainFrameOnly: false))
         }
 
@@ -361,31 +438,42 @@ struct HubspotChatWebView: UIViewRepresentable {
         }
 
         func userContentController(_: WKUserContentController, didReceive message: WKScriptMessage) {
-            guard let dict = message.body as? [String: Any] else {
-                // Without body, there's no action to take
-                return
-            }
+            let handlerName = message.name
 
-            /// this message is sent on widget loading
-            if let message = dict["message"] as? String, message == "widget has loaded" {
-                Task {
-                    await viewModel.didLoadWidget()
+            switch handlerName {
+            case closeHandlerName:
+                manager.logger.trace("ChatView recieved message to close handler - this means chat webpage wants to close.")
+                dismissHandler()
+            case handlerName:
+                guard let dict = message.body as? [String: Any] else {
+                    // Without body, there's no action to take
+                    return
                 }
-            }
 
-            // We are looking to get conversation object , if sent.
-            if let conversationDict = dict["conversation"] as? [String: Any],
-               let conversationId = conversationDict["conversationId"] as? Int
-            {
-                #if compiler(<6)
-                    // Adding an assume isolated for Xcode 15 support - this isn't needed in Xcode 16, but the WKScriptMessageHandler doesn't have the main actor isolation
-                    MainActor.assumeIsolated {
-                        manager.handleThreadOpened(threadId: String(conversationId))
+                // this message is sent on widget loading
+                if let message = dict["message"] as? String, message == "widget has loaded" {
+                    Task {
+                        await viewModel.didLoadWidget()
                     }
-                #else
-                    // Now we know the id of newly selected thread, we can inform the manager which will handle next steps for data
-                    manager.handleThreadOpened(threadId: String(conversationId))
-                #endif
+                }
+
+                // We are looking to get conversation object , if sent.
+                if let conversationDict = dict["conversation"] as? [String: Any],
+                    let conversationId = conversationDict["conversationId"] as? Int
+                {
+                    #if compiler(<6)
+                        // Adding an assume isolated for Xcode 15 support - this isn't needed in Xcode 16, but the WKScriptMessageHandler doesn't have the main actor isolation
+                        MainActor.assumeIsolated {
+                            manager.handleThreadOpened(threadId: String(conversationId))
+                        }
+
+                    #else
+                        // Now we know the id of newly selected thread, we can inform the manager which will handle next steps for data
+                        manager.handleThreadOpened(threadId: String(conversationId))
+                    #endif
+                }
+            default:
+                manager.logger.warning("Message handled for handler \(handlerName, privacy: .public), but thats not a known handler - ignoring it, but if something else was expecting to handle it, there might be an issue")
             }
         }
 
@@ -431,13 +519,13 @@ class ChatViewModel: ObservableObject {
     @Published private(set) var loadingState: MainURLLoadState = .notLoaded
 
     var failedToLoadWidget: Bool {
-        return loadingState == .failed
+        loadingState == .failed
     }
 
     /// used to show error instead of chat view webview
     var isFailure: Bool {
         // TODO: - add generic error also?
-        return configError != nil || failedToLoadWidget
+        configError != nil || failedToLoadWidget
     }
 
     @Published var configError: HubspotConfigError?

@@ -3,8 +3,9 @@
 //
 // Copyright © 2024 Hubspot, Inc.
 
-@testable import HubspotMobileSDK
 import XCTest
+
+@testable import HubspotMobileSDK
 
 @MainActor
 final class HubspotMobileSDKTests: XCTestCase {

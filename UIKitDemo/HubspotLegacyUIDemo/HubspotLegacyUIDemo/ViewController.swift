@@ -35,9 +35,10 @@ class ViewController: UIViewController {
 
     @IBAction
     func onEnablePushPress(_: Any) {
-        HubspotManager.shared.configurePushMessaging(promptForNotificationPermissions: true,
-                                                     allowProvisionalNotifications: true,
-                                                     newMessageCallback: nil)
+        HubspotManager.shared.configurePushMessaging(
+            promptForNotificationPermissions: true,
+            allowProvisionalNotifications: true,
+            newMessageCallback: nil)
     }
 
     @IBAction

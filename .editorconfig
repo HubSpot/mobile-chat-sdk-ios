@@ -1,8 +1,13 @@
+
 [*]
 indent_style = space
 indent_size = 2
 
+# match swift-format settings, so that editorconfig doesn't clash with swift-format if xcode also reads editor config
+[*.swift]
+indent_style = space
+indent_size = 4
+
 [Makefile]
 indent_style = tab
 indent_size = 4
-

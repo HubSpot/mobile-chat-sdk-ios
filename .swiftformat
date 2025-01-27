@@ -1,3 +1,0 @@
---disable redundantReturn
---enable isEmpty
---header "{file}\nHubspot Mobile SDK\n\nCopyright © {year} Hubspot, Inc."
