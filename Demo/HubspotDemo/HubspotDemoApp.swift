@@ -24,12 +24,14 @@ struct HubspotDemoApp: App {
                 .task {
                     appViewModel.configure(appDelegate)
                 }
-                .onChange(of: scenePhase, perform: { val in
-                    if val == .active {
-                        appViewModel.registerForPush()
-                        appViewModel.setChatProperties()
-                    }
-                })
+                .onChange(
+                    of: scenePhase,
+                    perform: { val in
+                        if val == .active {
+                            appViewModel.registerForPush()
+                            appViewModel.setChatProperties()
+                        }
+                    })
         }
     }
 }

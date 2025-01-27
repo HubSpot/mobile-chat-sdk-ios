@@ -7,11 +7,11 @@ import Combine
 import Foundation
 import OSLog
 import SwiftUI
-import UserNotifications
+@preconcurrency import UserNotifications
 
 /// Logger is created in multiple places, so this is a helper for that to avoid repeating values
 private func createDefaultHubspotLogger() -> Logger {
-    return Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.hubspot.mobilesdk", category: "HubspotSDK")
+    Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.hubspot.mobilesdk", category: "HubspotSDK")
 }
 
 /// The main interface for the Hubspot mobile SDK.
@@ -72,7 +72,8 @@ public class HubspotManager: NSObject, ObservableObject {
     /// The logger used by the SDK. to disable logging set to the disabled OSLog with  `Logger(.disabled)`, or set a custom Logger with a preferred subsystem and category
     public var logger = createDefaultHubspotLogger() {
         didSet {
-            api.logger = logger
+            // Replace API with new instance with new logger
+            api = HubspotAPI(logger: logger)
         }
     }
 
@@ -98,15 +99,18 @@ public class HubspotManager: NSObject, ObservableObject {
     ///   - hublet: Hublet name , typically "na1" or "eu1"
     ///   - defaultChatFlow: The default chat flow to use if none is specified per chat view
     ///   - environment: the environment to use
-    public static func configure(portalId: String,
-                                 hublet: String,
-                                 defaultChatFlow: String?,
-                                 environment: HubspotEnvironment = .production)
-    {
-        shared.configure(portalId: portalId,
-                         hublet: hublet,
-                         defaultChatFlow: defaultChatFlow,
-                         environment: environment)
+    public static func configure(
+        portalId: String,
+        hublet: String,
+        defaultChatFlow: String?,
+        environment: HubspotEnvironment = .production
+    ) {
+        shared.configure(
+            portalId: portalId,
+            hublet: hublet,
+            defaultChatFlow: defaultChatFlow,
+            environment: environment
+        )
     }
 
     /// Load SDK configuration from bundled config file. Note this only applies to the shared instance ``shared`` , if you intend to create a new instance of `HubspotManager`, you should use the non static version on that instance , ``configure()-swift.method``
@@ -153,11 +157,12 @@ public class HubspotManager: NSObject, ObservableObject {
     ///   - hublet: Hublet name , typically "na1" or "eu1"
     ///   - defaultChatFlow: chat flow to use when none is specified when creating a chat. For example: sales
     ///   - environment: the environment to use
-    func configure(portalId: String,
-                   hublet: String,
-                   defaultChatFlow: String?,
-                   environment: HubspotEnvironment = .production)
-    {
+    func configure(
+        portalId: String,
+        hublet: String,
+        defaultChatFlow: String?,
+        environment: HubspotEnvironment = .production
+    ) {
         self.portalId = portalId
         self.hublet = hublet
         self.environment = environment
@@ -191,7 +196,7 @@ public class HubspotManager: NSObject, ObservableObject {
     /// Sends the token if not already sent - only sends data when we have the token and its not being sent recently
     private func sendPushTokenIfNeeded() {
         guard let pushToken,
-              let portalId
+            let portalId
         else {
             // Not enough info, can't send yet
             return
@@ -204,7 +209,7 @@ public class HubspotManager: NSObject, ObservableObject {
             case .notSent:
                 shouldSendToken = true
 
-            case let .sending(lastActionDate):
+            case .sending(let lastActionDate):
                 let interval = abs(lastActionDate.timeIntervalSinceNow)
 
                 // If we have been 'sending' for more than a minute, clear and try again
@@ -215,7 +220,7 @@ public class HubspotManager: NSObject, ObservableObject {
                     shouldSendToken = false
                 }
 
-            case let .sent(lastActionDate):
+            case .sent(let lastActionDate):
                 // Ignore new attempt to send if its within a brief window
                 let interval = abs(lastActionDate.timeIntervalSinceNow)
 
@@ -331,8 +336,8 @@ public class HubspotManager: NSObject, ObservableObject {
         properties[ChatPropertyKey.operatingSystemVersion.rawValue] = "\(UIDevice.current.systemName) \(UIDevice.current.systemVersion)"
 
         if let infoDict = Bundle.main.infoDictionary,
-           let shortVersion = infoDict["CFBundleShortVersionString"],
-           let buildVersion = infoDict["CFBundleVersion"]
+            let shortVersion = infoDict["CFBundleShortVersionString"],
+            let buildVersion = infoDict["CFBundleVersion"]
         {
             properties[ChatPropertyKey.appVersion.rawValue] = "\(shortVersion).\(buildVersion)"
         }
@@ -393,9 +398,12 @@ public class HubspotManager: NSObject, ObservableObject {
     ///     - forChatFlow: The chat flow to open.
     /// - Returns: URL to embed to show mobile chat
     ///  - Throws: ``HubspotConfigError.missingConfiguration`` if app settings like portal id or hublet are missing, or ``HubspotConfigError.missingChatFlow`` if no chat flow is provided and no default value exists
-    func chatUrl(withPushData: PushNotificationChatData?, forChatFlow: String? = nil) throws -> URL {
+    func chatUrl(
+        withPushData: PushNotificationChatData?,
+        forChatFlow: String?
+    ) throws -> URL {
         guard let hublet,
-              let portalId
+            let portalId
         else {
             throw HubspotConfigError.missingConfiguration
         }
@@ -470,12 +478,14 @@ public class HubspotManager: NSObject, ObservableObject {
             let props = await finalizeChatProperties()
 
             do {
-                try await api.sendChatProperties(hublet: hubletModel,
-                                                 properties: props,
-                                                 visitorIdToken: self.userIdentityToken,
-                                                 email: self.userEmailAddress,
-                                                 threadId: threadId,
-                                                 portalId: portalId)
+                try await api.sendChatProperties(
+                    hublet: hubletModel,
+                    properties: props,
+                    visitorIdToken: self.userIdentityToken,
+                    email: self.userEmailAddress,
+                    threadId: threadId,
+                    portalId: portalId
+                )
             } catch {
                 logger.error("Error sending chat properties: \(error)")
             }
@@ -483,23 +493,14 @@ public class HubspotManager: NSObject, ObservableObject {
     }
 }
 
-// These are test functions just used during early development - kept in an extension to make them more obvious for deletion later
-public extension HubspotManager {
-    /// Ignore - used for early testing in the demo application, and will be removed in the future.
-    func debug_emitSomeLogs() {
-        logger.trace("This is a trace log")
-        logger.info("This is an info log , the app bundle id is \(Bundle.main.bundleIdentifier ?? "Unknown")")
-    }
-}
-
-public extension Image {
+extension Image {
     /// Exporting chat icon - initially for demo use - but maybe sharing some resources that aren't buttons or views might be needed eventually, if so refactor this
-    static var hubspotChatImage: Image {
+    public static var hubspotChat: Image {
         Image(.genericChatIcon)
     }
 }
 
-public extension HubspotManager {
+extension HubspotManager {
     /// Create a visitor access token directly using app access token
     ///
     /// Convenience for creating a visitor identity token using the given details, for situations where server infrastructure isn't available during SDK development.
@@ -513,7 +514,7 @@ public extension HubspotManager {
     ///   - lastName: users last name
     /// - Returns: The generated JWT token
     @available(*, deprecated, message: "This is for development only and may be removed - acquiring an access token should be done as part of your products server infrastructure")
-    func aquireUserIdentityToken(accessToken: String, email: String, firstName: String, lastName: String) async throws -> String {
+    public func aquireUserIdentityToken(accessToken: String, email: String, firstName: String, lastName: String) async throws -> String {
         guard let hubletModel else {
             throw HubspotConfigError.missingConfiguration
         }

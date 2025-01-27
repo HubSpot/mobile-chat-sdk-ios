@@ -14,25 +14,31 @@ struct TabBarWithGlobalFloatingButton: View {
                 .tabItem {
                     Label("Tab 1", systemImage: "lamp.table.fill")
                 }
-                .anchorPreference(key: FloatingButtonAlignmentPreferenceKey.self, value: .bottomTrailing, transform: { anchor in
-                    return anchor
-                })
+                .anchorPreference(
+                    key: FloatingButtonAlignmentPreferenceKey.self, value: .bottomTrailing,
+                    transform: { anchor in
+                        return anchor
+                    })
 
             tab2view
                 .tabItem {
                     Label("Tab 2", systemImage: "fanblades.fill")
                 }
-                .anchorPreference(key: FloatingButtonAlignmentPreferenceKey.self, value: .bottomTrailing, transform: { anchor in
-                    return anchor
-                })
+                .anchorPreference(
+                    key: FloatingButtonAlignmentPreferenceKey.self, value: .bottomTrailing,
+                    transform: { anchor in
+                        return anchor
+                    })
 
             tab3view
                 .tabItem {
                     Label("Tab 3", systemImage: "light.cylindrical.ceiling.inverse")
                 }
-                .anchorPreference(key: FloatingButtonAlignmentPreferenceKey.self, value: .bottomTrailing, transform: { anchor in
-                    return anchor
-                })
+                .anchorPreference(
+                    key: FloatingButtonAlignmentPreferenceKey.self, value: .bottomTrailing,
+                    transform: { anchor in
+                        return anchor
+                    })
         }
         .overlayPreferenceValue(FloatingButtonAlignmentPreferenceKey.self) { value in
             GeometryReader { proxy in
@@ -65,7 +71,8 @@ struct TabBarWithGlobalFloatingButton: View {
     var tab1view: some View {
         ScrollView {
             VStack {
-                Text("""
+                Text(
+                    """
                     This is tab 1.
 
                     These tabs are all their own views, but the button is independent of the tab contents, floating above it using overlays

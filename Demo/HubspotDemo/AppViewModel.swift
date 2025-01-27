@@ -32,18 +32,19 @@ class AppViewModel: ObservableObject {
     func setupHubspot() {
         do {
             if let newPortalId: String = UserDefaults.standard[.overridePortalId],
-               let newHublet: String = UserDefaults.standard[.overrideHublet],
-               let envStr: String = UserDefaults.standard[.overrideEnv],
-               let newEnv = HubspotEnvironment(rawValue: envStr)
+                let newHublet: String = UserDefaults.standard[.overrideHublet],
+                let envStr: String = UserDefaults.standard[.overrideEnv],
+                let newEnv = HubspotEnvironment(rawValue: envStr)
             {
                 let newChatFlow: String? = UserDefaults.standard[.overrideDefaultChatFlow]
 
                 // User has previously edited the config via settings, so use those instead of the default which looks for the info plist in the bundle
                 // This way could also be used to support different test / production env at run time based on variables
-                HubspotManager.configure(portalId: newPortalId,
-                                         hublet: newHublet,
-                                         defaultChatFlow: newChatFlow,
-                                         environment: newEnv)
+                HubspotManager.configure(
+                    portalId: newPortalId,
+                    hublet: newHublet,
+                    defaultChatFlow: newChatFlow,
+                    environment: newEnv)
             } else {
                 // the default configure which reads from file dropped into the project, for convenience.
                 try HubspotManager.configure()
@@ -51,7 +52,7 @@ class AppViewModel: ObservableObject {
 
             // If we already configured the demo with a token and email previously, re-set the user identity
             if let existingToken: String = UserDefaults.standard[.idToken],
-               let existingEmail: String = UserDefaults.standard[.userEmail]
+                let existingEmail: String = UserDefaults.standard[.userEmail]
             {
                 HubspotManager.shared.setUserIdentity(identityToken: existingToken, email: existingEmail)
             }

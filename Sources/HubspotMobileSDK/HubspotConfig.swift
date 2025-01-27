@@ -12,6 +12,7 @@ public enum HubspotEnvironment: String, Codable, CustomStringConvertible, Sendab
     /// Production environment, the most commonly used environment
     case production = "prod"
 
+    /// Display friendly name for the environment
     public var description: String {
         switch self {
         case .production:
@@ -95,13 +96,14 @@ struct Hublet {
 }
 
 /// Errors relating to setting up SDK
-public enum HubspotConfigError: LocalizedError {
+public enum HubspotConfigError: LocalizedError, Sendable {
     /// Missing config file, or missing value within - if this error occurs, make sure hubspot info file is bundled in app, and that  the manager configure method  ``HubspotManager/configure()-swift.type.method`` has been called .
     case missingConfiguration
 
     /// Chat flow is needed to correctly show a chat
     case missingChatFlow
 
+    /// Description of the error and reason for failure, same as ``failureReason`` currently.
     public var errorDescription: String? {
         switch self {
         case .missingConfiguration:
@@ -110,7 +112,7 @@ public enum HubspotConfigError: LocalizedError {
             return "No chat flow provided, and no default found"
         }
     }
-
+    /// Description of the error and reason for failure, same as ``errorDescription`` currently.
     public var failureReason: String? {
         switch self {
         case .missingConfiguration:
@@ -125,7 +127,7 @@ public enum HubspotConfigError: LocalizedError {
 ///
 /// By default, the SDK will initialise using a known file path, Hubspot-Info.plist
 ///
-public struct HubspotConfig: Codable {
+public struct HubspotConfig: Codable, Sendable {
     /// This is the default, assumed filename for the plist bunded in app containing the config values
     public static let defaultConfigFileName: String = "Hubspot-Info.plist"
 

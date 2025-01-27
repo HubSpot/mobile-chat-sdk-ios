@@ -17,7 +17,8 @@ struct NavToolbarWithChatButtonView: View {
                     This content screen has a chat button placed in the nav bar - an option for when overlaying a larger chat button over content isn't ideal.
 
                     The button could also be a plain button - here its a custom button style
-                    """).multilineTextAlignment(.leading)
+                    """
+                ).multilineTextAlignment(.leading)
                     .padding(.vertical)
                 PlaceholderView()
             }
@@ -26,28 +27,32 @@ struct NavToolbarWithChatButtonView: View {
         .navigationTitle("My Content")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing, content: {
-                Button(action: showChat) {
-                    HStack {
-                        Image.hubspotChatImage
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .padding(.vertical, 5)
-                        Text("Chat")
+            ToolbarItem(
+                placement: .topBarTrailing,
+                content: {
+                    Button(action: showChat) {
+                        HStack {
+                            Image.hubspotChat
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .padding(.vertical, 5)
+                            Text("Chat")
+                        }
+                        .padding(.horizontal)
+                        .padding(.vertical, 3)
+                        .background {
+                            Capsule()
+                                .fill(.accent)
+                        }
+                        .foregroundColor(.white)
                     }
-                    .padding(.horizontal)
-                    .padding(.vertical, 3)
-                    .background {
-                        Capsule()
-                            .fill(.accent)
-                    }
-                    .foregroundColor(.white)
-                }
-            })
+                })
         }
-        .sheet(isPresented: $showingChat, content: {
-            HubspotChatView()
-        })
+        .sheet(
+            isPresented: $showingChat,
+            content: {
+                HubspotChatView()
+            })
     }
 
     func showChat() {

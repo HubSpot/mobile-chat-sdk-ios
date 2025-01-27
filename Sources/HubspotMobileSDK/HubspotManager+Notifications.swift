@@ -6,7 +6,7 @@
 import Foundation
 import NotificationCenter
 
-public extension HubspotManager {
+extension HubspotManager {
     /// Alternative to ``newMessage`` publisher or ``newMessageCallback`` property , potentially useful in a SwiftUI view
     ///
     /// This could be used in a stand alone task like so:
@@ -32,15 +32,18 @@ public extension HubspotManager {
     /// ```
     /// > Warning: This async stream normally will never terminate.
     ///
-    func newMessages() -> AsyncStream<PushNotificationChatData> {
+    public func newMessages() -> AsyncStream<PushNotificationChatData> {
         return AsyncStream { cont in
 
-            let pubCancellable = self.newMessage.sink(receiveCompletion: { _ in
-                // doesn't matter if the subscription fails or finishes, our sequence is done - in this specific case we expect it never to do either , but just incase, end the stream.
-                cont.finish()
-            }, receiveValue: { data in
-                cont.yield(data)
-            })
+            // Supressing sendability issue with cancellable - should be ok to send to the onTermination, as nothing else will have a reference to it
+            nonisolated(unsafe) let pubCancellable = self.newMessage.sink(
+                receiveCompletion: { _ in
+                    // doesn't matter if the subscription fails or finishes, our sequence is done - in this specific case we expect it never to do either , but just incase, end the stream.
+                    cont.finish()
+                },
+                receiveValue: { data in
+                    cont.yield(data)
+                })
 
             cont.onTermination = { termination in
                 switch termination {
@@ -72,42 +75,43 @@ public extension HubspotManager {
     ///   - promptForNotificationPermissions: If true, and notification permissions are not yet granted, the user is prompted to allow notifications
     ///   - allowProvisionalNotifications: If `promptForNotificationPermissions` is false, set this to true to enable provisional notifications if not already granted. Has no effect if `promptForNotificationPermissions` is true.
     ///   - newMessageCallback: Use this closure to configure your UI to show chat view. Called on the main thread. If nil, the call back isn't changed from any previous configuration. Alternatively, leave as nil , and set ``HubspotManager/newMessageCallback`` property directly.  or use the ``HubspotManager/newMessage`` publisher property
-    func configurePushMessaging(promptForNotificationPermissions: Bool,
-                                allowProvisionalNotifications: Bool,
-                                newMessageCallback: ((PushNotificationChatData) -> Void)? = nil)
-    {
+    public func configurePushMessaging(
+        promptForNotificationPermissions: Bool,
+        allowProvisionalNotifications: Bool,
+        newMessageCallback: ((PushNotificationChatData) -> Void)? = nil
+    ) {
         UIApplication.shared.registerForRemoteNotifications()
 
         // Act as the delegate for opening notifications so we can tell when someone opens one.
         UNUserNotificationCenter.current().delegate = self
 
         if promptForNotificationPermissions {
-            Task {
+            Task.detached {
                 let currentSettings = await UNUserNotificationCenter.current().notificationSettings()
                 // We only want to request auth if not yet asked or just provisional
                 if currentSettings.authorizationStatus == .notDetermined || currentSettings.authorizationStatus == .provisional {
                     do {
                         let authorized = try await UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge])
                         if authorized {
-                            logger.trace("Notification permission granted")
+                            await self.logger.trace("Notification permission granted")
                         }
                     } catch {
-                        logger.error("Unable to request notification permissions: \(error)")
+                        await self.logger.error("Unable to request notification permissions: \(error)")
                     }
                 }
             }
         } else if allowProvisionalNotifications {
-            Task {
+            Task.detached {
                 let currentSettings = await UNUserNotificationCenter.current().notificationSettings()
                 // We only want to request auth if not yet asked
                 if currentSettings.authorizationStatus == .notDetermined {
                     do {
                         let authorized = try await UNUserNotificationCenter.current().requestAuthorization(options: [.provisional])
                         if authorized {
-                            logger.trace("Provisional notification settings enabled")
+                            await self.logger.trace("Provisional notification settings enabled")
                         }
                     } catch {
-                        logger.error("Unable to request notification permissions: \(error)")
+                        await self.logger.error("Unable to request notification permissions: \(error)")
                     }
                 }
             }
@@ -136,10 +140,7 @@ extension HubspotManager: UNUserNotificationCenterDelegate {
 
             // There's a few of keys we can potentially have here
             return
-                key.hasPrefix(PushNotificationChatData.chatflowIdKey) ||
-                key.hasPrefix(PushNotificationChatData.chatflowKey) ||
-                key.hasPrefix(PushNotificationChatData.portalIdKey) ||
-                key.hasPrefix(PushNotificationChatData.threadIdKey)
+                key.hasPrefix(PushNotificationChatData.chatflowIdKey) || key.hasPrefix(PushNotificationChatData.chatflowKey) || key.hasPrefix(PushNotificationChatData.portalIdKey) || key.hasPrefix(PushNotificationChatData.threadIdKey)
         })
 
         return hasAHubspotKey
@@ -161,8 +162,9 @@ extension HubspotManager: UNUserNotificationCenterDelegate {
                 self.newMessage.send(chatData)
             }
         } else {
-            Task { @MainActor in
-                logger.info("Push message handled by HubspotManager that isn't detected as as Hubspot notifiation. This may be a misconfiguration. \(response)")
+            let requestId = response.notification.request.identifier
+            Task {
+                await self.logger.info("Push message handled by HubspotManager that isn't detected as as Hubspot notifiation. This may be a misconfiguration. Response id: \(requestId)")
             }
         }
         completionHandler()

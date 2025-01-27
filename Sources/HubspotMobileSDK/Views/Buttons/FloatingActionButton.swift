@@ -41,27 +41,33 @@ public struct FloatingActionButton: View {
     /// - Parameters:
     ///   - manager: The manager to use for getting a chat session. By defautl the shared manager is used.
     ///   - chatFlow: The specific chat flow to open. Optional.
-    public init(manager: HubspotManager? = nil,
-                chatFlow: String? = nil)
-    {
+    public init(
+        manager: HubspotManager? = nil,
+        chatFlow: String? = nil
+    ) {
         self.manager = manager ?? HubspotManager.shared
         self.chatFlow = chatFlow
     }
 
     public var body: some View {
-        Button(action: showChat, label: {
-            Image(.genericChatIcon)
-                .foregroundColor(.white)
-                .padding()
-                .background(
-                    Circle()
-                        .fill()
-                )
-
-        })
-        .sheet(isPresented: $showingChat, content: {
-            HubspotChatView(manager: manager, chatFlow: chatFlow)
-        })
+        Button(
+            action: showChat,
+            label: {
+                Image(.genericChatIcon)
+                    .foregroundColor(.white)
+                    .padding()
+                    .background(
+                        Circle()
+                            .fill()
+                    )
+            }
+        )
+        .sheet(
+            isPresented: $showingChat,
+            content: {
+                HubspotChatView(manager: manager, chatFlow: chatFlow)
+            }
+        )
         .onAppear {
             manager.prepareForPotentialChat()
         }
@@ -85,20 +91,23 @@ struct FloatingActionButtonOverlayModifier: ViewModifier {
     }
 
     func body(content: Content) -> some View {
-        content.overlay(alignment: .bottomTrailing, content: {
-            FloatingActionButton(manager: manager, chatFlow: chatFlow)
-                .padding()
-        })
+        content.overlay(
+            alignment: .bottomTrailing,
+            content: {
+                FloatingActionButton(manager: manager, chatFlow: chatFlow)
+                    .padding()
+            }
+        )
     }
 }
 
-public extension View {
+extension View {
     /// Convenience to overlay a floating action button - call on your main content view to overlay button at bottom trailing position with default padding. Set the `chatFlow` property to use a specific flow, otherwise the default flow from your configuration file will be used.
     /// - Parameters:
     ///     - manager: The hubspot manager to use
     ///     - chatFlow: the chat flow targeting parameter to use
-    func overlayHubspotFloatingActionButton(manager: HubspotManager? = nil, chatFlow: String? = nil) -> some View {
-        return modifier(FloatingActionButtonOverlayModifier(manager: manager, chatFlow: chatFlow))
+    public func overlayHubspotFloatingActionButton(manager: HubspotManager? = nil, chatFlow: String? = nil) -> some View {
+        modifier(FloatingActionButtonOverlayModifier(manager: manager, chatFlow: chatFlow))
     }
 }
 

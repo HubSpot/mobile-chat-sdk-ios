@@ -33,21 +33,30 @@ struct EditConfigView: View {
                     TextField("Portal ID", text: $enteredPortalId)
                     TextField("Hublet", text: $enteredHublet)
                     TextField("Chat Flow", text: $enteredDefaultChatFlow)
-                    Picker("Environment", selection: $selectedEnvironment, content: {
-                        Text("Production")
-                            .tag(HubspotEnvironment.production)
-                        Text("QA")
-                            .tag(HubspotEnvironment.qa)
-                    }).pickerStyle(.segmented)
-                    Button(action: saveChanges, label: {
-                        Label("Save Config", systemImage: "slider.horizontal.3")
-                    }).disabled(!hasChanges)
+                    Picker(
+                        "Environment", selection: $selectedEnvironment,
+                        content: {
+                            Text("Production")
+                                .tag(HubspotEnvironment.production)
+                            Text("QA")
+                                .tag(HubspotEnvironment.qa)
+                        }
+                    ).pickerStyle(.segmented)
+                    Button(
+                        action: saveChanges,
+                        label: {
+                            Label("Save Config", systemImage: "slider.horizontal.3")
+                        }
+                    ).disabled(!hasChanges)
                 }
                 Section {
                     Text("Clear any edited values previously saved, and go back to using the bundled config values")
-                    Button(role: .destructive, action: { showReset = true }, label: {
-                        Label("Reset to default", systemImage: "minus.square")
-                    })
+                    Button(
+                        role: .destructive, action: { showReset = true },
+                        label: {
+                            Label("Reset to default", systemImage: "minus.square")
+                        }
+                    )
                     .confirmationDialog("Reset Config", isPresented: $showReset) {
                         Button("Reset", role: .destructive, action: resetConfig)
                     }
@@ -84,10 +93,11 @@ struct EditConfigView: View {
         UserDefaults.standard[.overrideDefaultChatFlow] = enteredDefaultChatFlow
 
         logger.trace("Updating configuration on shared manager")
-        HubspotManager.configure(portalId: enteredPortalId,
-                                 hublet: enteredHublet,
-                                 defaultChatFlow: enteredDefaultChatFlow,
-                                 environment: selectedEnvironment)
+        HubspotManager.configure(
+            portalId: enteredPortalId,
+            hublet: enteredHublet,
+            defaultChatFlow: enteredDefaultChatFlow,
+            environment: selectedEnvironment)
 
         dismiss()
     }

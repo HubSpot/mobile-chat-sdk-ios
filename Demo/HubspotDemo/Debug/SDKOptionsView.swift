@@ -8,7 +8,8 @@ import HubspotMobileSDK
 import SwiftUI
 
 struct SDKOptionsView: View {
-    let ENABLE_IDENTITY_TOKEN_CREATION = false
+    ///Only for local development
+    let enableTokenCreation = false
 
     @Environment(\.dismiss)
     var dismiss
@@ -48,12 +49,15 @@ struct SDKOptionsView: View {
                 }
             )
             .toolbar {
-                ToolbarItem(placement: .cancellationAction, content: {
-                    Button(action: { dismiss() },
-                           label: {
-                               Text("Close")
-                           })
-                })
+                ToolbarItem(
+                    placement: .cancellationAction,
+                    content: {
+                        Button(
+                            action: { dismiss() },
+                            label: {
+                                Text("Close")
+                            })
+                    })
             }
             .navigationTitle("SDK Options")
         }
@@ -66,9 +70,11 @@ struct SDKOptionsView: View {
             detailRow(label: "Hublet", value: manager.hublet ?? "<Not Available>")
             detailRow(label: "Environment", value: manager.environment.description)
             detailRow(label: "Default Chat Flow", value: manager.defaultChatFlow ?? "<Not Available>")
-            NavigationLink(destination: EditConfigView(), label: {
-                Text("Edit Config")
-            })
+            NavigationLink(
+                destination: EditConfigView(),
+                label: {
+                    Text("Edit Config")
+                })
         }
     }
 
@@ -91,23 +97,21 @@ struct SDKOptionsView: View {
     @ViewBuilder
     var loggingSection: some View {
         Section("Logging") {
-            Button(action: {
-                HubspotManager.shared.debug_emitSomeLogs()
-            }, label: {
-                Text("Emit Some Logs")
-            })
+            Button(
+                action: {
+                    HubspotManager.shared.disableLogging()
+                },
+                label: {
+                    Text("Disable Logging")
+                })
 
-            Button(action: {
-                HubspotManager.shared.disableLogging()
-            }, label: {
-                Text("Disable Logging")
-            })
-
-            Button(action: {
-                HubspotManager.shared.enableLogging()
-            }, label: {
-                Text("Enable Logging")
-            })
+            Button(
+                action: {
+                    HubspotManager.shared.enableLogging()
+                },
+                label: {
+                    Text("Enable Logging")
+                })
         }
     }
 
@@ -133,8 +137,9 @@ struct SDKOptionsView: View {
                     .textContentType(.emailAddress)
 
                 Button("Apply") {
-                    manager.setUserIdentity(identityToken: inputtedToken,
-                                            email: inputtedEmail)
+                    manager.setUserIdentity(
+                        identityToken: inputtedToken,
+                        email: inputtedEmail)
                     configUserIdentity = false
                 }.disabled(inputtedEmail.isEmpty || inputtedToken.isEmpty)
                 Button("Clear data") {
@@ -145,7 +150,7 @@ struct SDKOptionsView: View {
                 }
             }
 
-            if ENABLE_IDENTITY_TOKEN_CREATION {
+            if enableTokenCreation {
                 // This is a convenience for the sake of demo app , building in token generation that would normally be done
                 // on a server as  part of a proper user auth flow perhaps.
                 // This just avoids the need to manually run api commands & hard code tokens during early development
@@ -194,10 +199,11 @@ struct SDKOptionsView: View {
             }
 
             do {
-                let token = try await manager.aquireUserIdentityToken(accessToken: accessToken,
-                                                                      email: createTokenEmail,
-                                                                      firstName: createTokenFirstName,
-                                                                      lastName: createTokenLastName)
+                let token = try await manager.aquireUserIdentityToken(
+                    accessToken: accessToken,
+                    email: createTokenEmail,
+                    firstName: createTokenFirstName,
+                    lastName: createTokenLastName)
 
                 if !token.isEmpty, !createTokenEmail.isEmpty {
                     inputtedEmail = createTokenEmail
@@ -205,8 +211,9 @@ struct SDKOptionsView: View {
 
                     try Task.checkCancellation()
 
-                    manager.setUserIdentity(identityToken: token,
-                                            email: createTokenEmail)
+                    manager.setUserIdentity(
+                        identityToken: token,
+                        email: createTokenEmail)
 
                     // Brief delay to show the fields updating before screen closes
                     try await Task.sleep(nanoseconds: 2_000_000_000)
@@ -228,8 +235,10 @@ struct SDKOptionsView: View {
 #Preview {
     NavigationStack {
         Text("Preview")
-            .sheet(isPresented: .constant(true), content: {
-                SDKOptionsView()
-            })
+            .sheet(
+                isPresented: .constant(true),
+                content: {
+                    SDKOptionsView()
+                })
     }
 }

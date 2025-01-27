@@ -4,7 +4,7 @@
 // Copyright © 2024 Hubspot, Inc.
 
 import Foundation
-import UIKit // Needed for UIDevice
+import UIKit  // Needed for UIDevice
 
 extension HubspotManager {
     /// Called by ui components if a chat might potentially happen - allows manager class to enable anything that needs prep time - like battery monitoring ahead of gathering it.
@@ -31,8 +31,8 @@ extension HubspotManager {
     /// Fetch the system model , converting c struct into normal string. Uses utsname function and reflection.
     /// The result is the apple model number, like iPhone15,4 , iPhone16,1 , etc rather than marketing name like "Pro Max"
     func deviceModel() -> String {
-        var info = utsname() // create empty struct
-        uname(&info) // populate it
+        var info = utsname()  // create empty struct
+        uname(&info)  // populate it
 
         /// We can't iterate over a tuple of characters, nor can we use the init methods that take an array of cchars, so reflection to loop over them instead
         let mirror = Mirror(reflecting: info.machine)

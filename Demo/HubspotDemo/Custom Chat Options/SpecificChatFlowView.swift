@@ -1,7 +1,7 @@
 // SpecificChatFlowView.swift
 // Hubspot Mobile SDK Demo Application
 //
-// Copyright © 2024 Hubspot, Inc.
+// Copyright © 2025 Hubspot, Inc.
 
 import HubspotMobileSDK
 import SwiftUI
@@ -15,8 +15,10 @@ struct SpecificChatFlowView: View {
     var body: some View {
         ScrollView {
             VStack {
-                Text("When opening chat view, one can optionally specfiy a chat flow. Here's a way to test that out. One option opens the default chat, based on the bundled configuration. Another opens a fixed flow - set as a constant in code, for example for a specific sub section of your app. And lastly, a dynamic value - perhaps derived from push message, your server back end, or a dynamic config.")
-                    .padding(.bottom)
+                Text(
+                    "When opening chat view, one can optionally specfiy a chat flow. Here's a way to test that out. One option opens the default chat, based on the bundled configuration. Another opens a fixed flow - set as a constant in code, for example for a specific sub section of your app. And lastly, a dynamic value - perhaps derived from push message, your server back end, or a dynamic config."
+                )
+                .padding(.bottom)
 
                 Divider()
 
@@ -48,17 +50,21 @@ struct SpecificChatFlowView: View {
                                 }
                             }
                             .sheet(isPresented: $presentChatFlowFromField) {
-                                HubspotChatView(chatFlow: enteredChatFlow.trimmingCharacters(in: .whitespacesAndNewlines))
+                                HubspotChatView(
+                                    chatFlow: enteredChatFlow.trimmingCharacters(in: .whitespacesAndNewlines)
+                                )
                             }
 
-                        TextChatButton(text: "Start '\(enteredChatFlow.trimmingCharacters(in: .whitespacesAndNewlines))' Chat",
-                                       chatFlow: enteredChatFlow.trimmingCharacters(in: .whitespacesAndNewlines))
+                        TextChatButton(
+                            text: "Start '\(enteredChatFlow.trimmingCharacters(in: .whitespacesAndNewlines))' Chat",
+                            chatFlow: enteredChatFlow.trimmingCharacters(in: .whitespacesAndNewlines)
+                        )
                     }
 
                 }.ignoresSafeArea([.container])
             }
             .padding()
-            .padding(.bottom, 200) // additional spacing at the bottom for overscroll
+            .padding(.bottom, 200)  // additional spacing at the bottom for overscroll
         }.navigationTitle("Setting Chat Flow")
     }
 }

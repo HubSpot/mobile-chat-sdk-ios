@@ -17,7 +17,8 @@ struct ToolbarWithChatButtonView: View {
                     This content screen has a chat button placed in a tool bar - another option for when overlaying a larger chat button over content isn't ideal - SwiftUI determines the sizing and layout of the toolbar.
 
                     The button here is just a standard, plain button with text.
-                    """).multilineTextAlignment(.leading)
+                    """
+                ).multilineTextAlignment(.leading)
                     .padding(.vertical)
                 PlaceholderView()
             }
@@ -26,15 +27,19 @@ struct ToolbarWithChatButtonView: View {
         .navigationTitle("My Content")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            ToolbarItem(placement: .bottomBar, content: {
-                Button(action: showChat) {
-                    Text("Chat with us")
-                }
-            })
+            ToolbarItem(
+                placement: .bottomBar,
+                content: {
+                    Button(action: showChat) {
+                        Text("Chat with us")
+                    }
+                })
         }
-        .sheet(isPresented: $showingChat, content: {
-            HubspotChatView()
-        })
+        .sheet(
+            isPresented: $showingChat,
+            content: {
+                HubspotChatView()
+            })
     }
 
     func showChat() {

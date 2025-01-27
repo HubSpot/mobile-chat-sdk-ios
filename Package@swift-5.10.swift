@@ -1,4 +1,4 @@
-// swift-tools-version: 6.0
+// swift-tools-version: 5.10
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -13,7 +13,6 @@ let package = Package(
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "HubspotMobileSDK",
-            //type: .dynamic #Needed if distributing pre-compiled framework, but that's untested right now
             targets: ["HubspotMobileSDK"])
     ],
     targets: [
@@ -25,13 +24,12 @@ let package = Package(
                 .copy("Resources/PrivacyInfo.xcprivacy")
             ],
             swiftSettings: [
-                .enableExperimentalFeature("RegionBasedIsolation")
-            ]
-        ),
+                .enableExperimentalFeature("StrictConcurrency"),
+                .enableExperimentalFeature("RegionBasedIsolation"),
+            ]),
         .testTarget(
             name: "HubspotMobileSDKTests",
-            dependencies: ["HubspotMobileSDK"]
-        ),
+            dependencies: ["HubspotMobileSDK"]),
     ],
-    swiftLanguageModes: [.v5, .v6]
+    swiftLanguageVersions: [.v5]
 )

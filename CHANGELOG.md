@@ -4,7 +4,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
- ## [1.0.5] - Unreleased
+## [1.0.6] - 2025-01-??
+
+### Added
+- Adding support for close option in chat, with default handling and optional custom support.
+- Adding support for Swift 6, Demo app updated to to require Swift 6 / Xcode 16. Package definition added for Swift 5.10 for maintaining compatability with Swift 5
+
+### Changed
+- Swapped the formatter files from SwiftFormat to apple / xcode swift-format, and files updated with new format. 
+
+ ## [1.0.5] - 2025-01-14
 
 ### Fixed
 

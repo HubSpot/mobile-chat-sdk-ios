@@ -19,7 +19,7 @@ import UIKit
 /// ```
 ///
 /// Avoid including personal, private information in property values, and only include data that you have permission from the user to use.
-public enum ChatPropertyKey: String {
+public enum ChatPropertyKey: String, Sendable {
     /// Optional. Use this key with the value 'true' or 'false' to record if your app has camera permissions granted.
     ///
     /// `api key: camera_permissions`

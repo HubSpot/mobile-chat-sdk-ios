@@ -14,9 +14,10 @@ struct CustomPropertiesListView: View {
     var body: some View {
         VStack {
             List {
-                Section(header: headerView,
-                        footer: footerView)
-                {
+                Section(
+                    header: headerView,
+                    footer: footerView
+                ) {
                     Text("Keys and values entered here are included in the custom chat properties via HubspotManager when opening chat")
                         .font(.body)
 
@@ -45,16 +46,20 @@ struct CustomPropertiesListView: View {
             TextField("Key", text: $newKey)
             TextField("Value", text: $newValue)
 
-            Button(action: {
-                appModel.addCustomProperty(key: newKey,
-                                           value: newValue)
-                newKey = ""
-                newValue = ""
-            }, label: {
-                // Custom label as button was too small
-                Text("Add")
-                    .frame(maxWidth: .infinity)
-            })
+            Button(
+                action: {
+                    appModel.addCustomProperty(
+                        key: newKey,
+                        value: newValue)
+                    newKey = ""
+                    newValue = ""
+                },
+                label: {
+                    // Custom label as button was too small
+                    Text("Add")
+                        .frame(maxWidth: .infinity)
+                }
+            )
             .buttonStyle(.borderedProminent)
         }
         .padding(.vertical)

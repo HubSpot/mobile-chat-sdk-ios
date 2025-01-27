@@ -31,26 +31,31 @@ public struct TextChatButton: View {
     }
 
     public var body: some View {
-        Button(action: {
-            withAnimation {
-                showingChat = true
-            }
-        }, label: {
-            HStack {
-                Image(.genericChatIcon)
-                if let customText {
-                    Text(customText)
-                } else {
-                    Text("chat.label", bundle: .module)
+        Button(
+            action: {
+                withAnimation {
+                    showingChat = true
                 }
-            }
+            },
+            label: {
+                HStack {
+                    Image(.genericChatIcon)
+                    if let customText {
+                        Text(customText)
+                    } else {
+                        Text("chat.label", bundle: .module)
+                    }
+                }
 
-        })
+            }
+        )
         .labelStyle(.titleAndIcon)
         .buttonStyle(TextChatButtonStyle())
-        .sheet(isPresented: $showingChat, content: {
-            HubspotChatView(manager: manager, chatFlow: chatFlow)
-        })
+        .sheet(
+            isPresented: $showingChat,
+            content: {
+                HubspotChatView(manager: manager, chatFlow: chatFlow)
+            })
     }
 }
 
