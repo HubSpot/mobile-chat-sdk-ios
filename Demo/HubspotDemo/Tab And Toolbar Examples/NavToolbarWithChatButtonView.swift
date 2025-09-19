@@ -35,17 +35,14 @@ struct NavToolbarWithChatButtonView: View {
                             Image.hubspotChat
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .padding(.vertical, 5)
                             Text("Chat")
                         }
                         .padding(.horizontal)
                         .padding(.vertical, 3)
-                        .background {
-                            Capsule()
-                                .fill(.accent)
-                        }
-                        .foregroundColor(.white)
+                        .foregroundStyle(.white)
                     }
+                    .tint(.accent)
+                    .buttonStyle(.borderedProminent)
                 })
         }
         .sheet(

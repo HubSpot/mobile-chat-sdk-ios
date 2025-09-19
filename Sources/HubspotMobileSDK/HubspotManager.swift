@@ -8,6 +8,7 @@ import Foundation
 import OSLog
 import SwiftUI
 @preconcurrency import UserNotifications
+import WebKit
 
 /// Logger is created in multiple places, so this is a helper for that to avoid repeating values
 private func createDefaultHubspotLogger() -> Logger {
@@ -27,6 +28,11 @@ private func createDefaultHubspotLogger() -> Logger {
 ///
 @MainActor
 public class HubspotManager: NSObject, ObservableObject {
+
+    /// These are the cookies HubSpot sets to manage identity for chat sessions; we want to remove them to allow fresh identities to be created on future chat sessions
+    /// More info on cookies that might be set are here: https://knowledge.hubspot.com/privacy-and-consent/what-cookies-does-hubspot-set-in-a-visitor-s-browser
+    private let cookiesToDeleteWhenClearingData = ["hubspotutk", "messagesUtk"]
+
     /// Shared instance that can be used app wide, instead of creating an managing own instance.
     /// If not using this instance, and instead managing your own instance, make sure to pass your instance as an argument to the ``HubspotChatView`` or other components.
     public static let shared = HubspotManager()
@@ -387,6 +393,16 @@ public class HubspotManager: NSObject, ObservableObject {
         userIdentityToken = nil
         userEmailAddress = nil
         chatProperties = [:]
+
+        Task {
+            //The Hubspot chat view currently uses the default web data store
+            let cookieStore = WKWebsiteDataStore.default().httpCookieStore
+            let matchingCookies = await cookieStore.allCookies().filter { cookiesToDeleteWhenClearingData.contains($0.name) }
+            for cookie in matchingCookies {
+                await cookieStore.deleteCookie(cookie)
+            }
+        }
+
         objectWillChange.send()
     }
 
