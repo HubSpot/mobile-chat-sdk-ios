@@ -68,6 +68,7 @@ struct ChooseDemoView: View {
                     )
                 }
             }
+            .overlayHubspotFloatingActionButton()
             .navigationTitle("Hubspot Demo")
             .toolbar(content: {
                 ToolbarItem(

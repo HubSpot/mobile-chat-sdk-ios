@@ -195,7 +195,7 @@ struct HubspotChatWebView: UIViewRepresentable {
     public typealias UIViewType = WKWebView
 
     /// This is the application name appended to the user agent when embedding chat, including a version, which is manually set for planned release version
-    let applicationNameForUserAgent = "HubspotMobileSDK/1.0.6"
+    let applicationNameForUserAgent = "HubspotMobileSDK/1.0.7"
 
     private let manager: HubspotManager
     private let chatFlow: String?
